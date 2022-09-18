@@ -1,0 +1,138 @@
+@import "./base.css";
+ 
+
+/* body {
+  height: 100%;
+  background-color: #2A2A32;
+} */
+
+
+*{font-family: 'Open Sans', sans-serif;
+    }
+
+
+.sidebar-nav{
+  width: var(--offcanvas-width);
+  background-color: #2A2A32;
+  
+}
+
+.sidebar-link{
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.sidebar-link .right-icon{
+  display: inline-flex;
+  transition: all ease 0.25s;
+}
+
+.sidebar-link[aria-expanded="true"] .right-icon {
+  transform: rotate(180deg);
+}
+
+.navbar.navbar-expand-lg{
+  border-bottom: 1px solid #77051a; 
+}
+/* .dropdown-divider{
+  border: 1px solid #ffffff; 
+} */
+.offcanvas{
+  border-right: 1px solid  #2494F2 ; 
+}
+
+/* .card{
+   background-color: hsl(349, 93%, 48%,0.8);; 
+   color: #fff !important;
+} */
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:  #2494F2; 
+  /* border: 3px solid yellow; */
+  border-radius: 20px;
+}
+
+@media (min-width: 992px){
+  body{
+      overflow: auto !important;
+  }
+  .offcanvas-backdrop::before {
+      display: none;
+  }
+
+  main{
+      margin-left: var(--offcanvas-width);
+  }
+  .sidebar-nav{
+      transform: none;
+      visibility: visible !important;
+      top: var(--topNahbarHeight);
+      height: calc(100% - var(--topNavbarHeight));
+  }
+  .nav-custom{
+      /* background-color: red ; */
+      width: 85%;
+      margin-left: 15%;
+  }
+}
+
+
+
+
+.nav-link{
+  color: white !important;
+}
+
+.nav-link:hover{
+  color: #2494F2; 
+}
+
+.card{
+overflow: auto;
+}
+
+/* ACC DEFINITION */
+.acc-text{
+  color: black;
+}
+
+.acc-bg{
+  background-color: var(--acc-txt-color) !important;
+  color: white;
+}
+
+.border-color{
+border: white 2px solid;
+}
+
+.btn-acc-pink{
+  background-color: var(--acc-txt-color) ;
+  color: white;
+}
+
+.btn-acc-pink:hover{
+  background-color: #ffffff ;
+  color: var(--acc-txt-color);
+  border: var(--acc-txt-color) 1px solid;
+}
+
+.btn-acc-light{
+  background-color: #ffffff ;
+  color: var(--acc-txt-color);
+}
+
+.appLogin {
+  background-color: #2A2A32;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
