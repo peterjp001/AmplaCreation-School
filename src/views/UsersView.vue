@@ -1,0 +1,89 @@
+<script>
+import Navbar from "@/components/NavBar.vue";
+import Offcanvas from "@/components/OffCanvas.vue";
+import Titlebar from "@/components/TitleBar.vue";
+import ModalAddUser from "@/components/ModalAddUser.vue";
+
+export default {
+  components: { Navbar, Offcanvas, Titlebar, ModalAddUser },
+  data() {
+    return {};
+  },
+  computed: {
+    getCData() {
+      return this.$store.getters.getCardData;
+    },
+  },
+};
+</script>
+
+<template>
+  <div>
+    <Navbar />
+
+    <Offcanvas />
+
+    <main class="mt-5">
+      <div class="container-fluid">
+        <Titlebar title="Utilisateurs" />
+
+        <div class="card shadow mt-3 p-2">
+          <div class="row row-cols-12 mt-2">
+            <div class="col pb-2">
+              <ModalAddUser />
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-cols-12 mt-2">
+          <div class="col pb-2">
+            <div class="card shadow">
+              <div class="card-header acc-bg d-flex justify-content-between">
+                <span>Liste Utilisateurs</span>
+                <span>
+                  <a href="#" class="btn btn-sm text-light border">
+                    <i class="bi bi-arrow-right-circle"></i>
+                  </a>
+                </span>
+              </div>
+              <div class="card-body">
+                <table
+                  id="example"
+                  class="table table-striped text-center nowrap"
+                  style="width: 100%"
+                >
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>USERNAME</th>
+                      <th>ROLES</th>
+                      <th>ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td>
+                        <select class="form-select w-25 form-select-lg" name="" id="">
+                          <option selected>Select one</option>
+                          <option value="">New Delhi</option>
+                          <option value="">Istanbul</option>
+                          <option value="">Jakarta</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
