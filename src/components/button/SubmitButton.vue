@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" class="btn">
+  <button type="submit" class="btn" :disabled="state">
     <span class="spinner-border spinner-border-sm" v-if="state"></span>
     {{ name }}
   </button>

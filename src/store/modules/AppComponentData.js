@@ -9,14 +9,44 @@ const state = {
             link:"/"
         },
         {
-            title:"Users",
+            title:"Élèves",
+            icon:"bi bi-person-video",
+            link:"/student"
+        },
+        {
+            title:"Classes",
+            icon:"bi bi-house",
+            link:"/grade"
+        },
+        {
+            title:"Cours",
+            icon:"bi bi-journals",
+            link:"/course"
+        },
+        {
+            title:"Notes",
+            icon:"bi bi-123",
+            link:"/notes"
+        },
+        {
+            title:"Employés",
             icon:"bi bi-people",
+            link:"/employee"
+        },
+        {
+            title:"Utilisateurs",
+            icon:"bi bi-person",
             link:"/users"
         },
         {
             title:"Login",
             icon:"bi bi-people",
             link:"/login"
+        },
+        {
+            title:"BlankPage",
+            icon:"bi bi-people",
+            link:"/blankpage"
         }
     ],
     cardData:[

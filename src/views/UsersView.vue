@@ -68,12 +68,156 @@ export default {
                         <span class="badge bg-success">ADMIN</span
                         ><span class="badge bg-warning">USER</span>
                       </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
                       <td>
-                        <select class="form-select w-25 form-select-lg" name="" id="">
-                          <option selected>Select one</option>
-                          <option value="">New Delhi</option>
-                          <option value="">Istanbul</option>
-                          <option value="">Jakarta</option>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>
+                        <span class="badge bg-success">ADMIN</span
+                        ><span class="badge bg-warning">USER</span>
+                      </td>
+                      <td class="">
+                        <select
+                          class="form-select float-end w-50 form-select-lg"
+                          name=""
+                          id=""
+                        >
+                          <option disabled selected>Select one</option>
+                          <option value="">Visualiser</option>
+                          <option value="">Supprimer</option>
+                          <option value="">Modifier</option>
                         </select>
                       </td>
                     </tr>

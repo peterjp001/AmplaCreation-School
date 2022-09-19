@@ -14,6 +14,13 @@ export default {
       return this.$store.getters.getSideBarData;
     },
   },
+  methods: {
+    logout() {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
 <template>
@@ -39,7 +46,7 @@ export default {
                 />
                 <span> Peter Jp </span>
               </a>
-              <a href="#" class="nav-link px-3 active">
+              <a href="#" @click="logout" class="nav-link px-3 active">
                 <span class="me-2"> <i class="bi bi-box-arrow-right"></i></span>
               </a>
             </div>

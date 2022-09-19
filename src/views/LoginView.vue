@@ -1,33 +1,91 @@
+<script>
+import SubmitButton from "@/components/button/SubmitButton.vue";
+import Message from "@/components/RequestMessage.vue";
+import { mapGetters, mapActions } from "vuex";
+export default {
+  components: { SubmitButton, Message },
+  data() {
+    return { username: "", password: "", message: "", type: "" };
+  },
+  computed: { ...mapGetters(["getLoadingState", "getAccessToken", "getRefreshToken"]) },
+  methods: {
+    ...mapActions(["authUser"]),
+    login() {
+      if (this.password.trim() && this.username.trim()) {
+        this.$store.dispatch("loadingState", true);
+        localStorage.setItem("accessToken", "");
+        this.authUser({ username: this.username, password: this.password })
+          .then((response) => {
+            console.log(response.data);
+            this.$store.dispatch("loadingState", false);
+            localStorage.setItem("accessToken", response.data.access_token);
+            localStorage.setItem("refreshToken", response.data.refresh_token);
+            this.$router.push("/");
+          })
+          .catch(() => {
+            this.$store.dispatch("loadingState", false);
+            console.log("Email Ou Mot De Passe Incorrect");
+          });
+      } else {
+        console.log(this.getAccessToken);
+        console.log("Remplire Les Champs Vide");
+      }
+    },
+  },
+};
+</script>
 <template>
-    <div class="appLogin text-center">
-        <main class="form-signin w-100 m-auto">
-            <form class="bg-light p-2 rounded">
-                <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
-                <h1 class="h3 mb-3 fw-normal text-light">Please sign in</h1>
-                <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-                </div> 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted">&copy;2022</p>
-            </form>
-        </main>
-    </div>
+  <div class="appLogin text-center">
+    <main class="form-signin w-100 m-auto">
+      <form class="bg-light p-2 rounded" v-on:submit.prevent="login">
+        <img
+          class="mb-4"
+          src="../assets/images/ic_school_128_28729.png"
+          alt=""
+          width="72"
+          height="57"
+        />
+        <h1 class="h3 mb-3 fw-normal text-muted">Notre Dames De Loudres</h1>
+        <Message type="success" message="ok ok" />
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingInput"
+            placeholder="JetLee"
+            v-model="username"
+          />
+          <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+            v-model="password"
+          />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <SubmitButton
+          class="btn-primary w-100"
+          name="Connection"
+          :state="this.getLoadingState"
+        />
+        <p class="mt-5 mb-3 text-muted">&copy;2022</p>
+      </form>
+    </main>
+  </div>
 </template>
 
 <style scoped>
 html,
- 
 .appLogin {
   display: flex;
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #2A2A32;
+  background-color: #2a2a32;
 }
 
 .form-signin {
@@ -64,6 +122,4 @@ html,
     font-size: 3.5rem;
   }
 }
-
- 
 </style>
