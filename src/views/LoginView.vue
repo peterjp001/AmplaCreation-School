@@ -2,38 +2,68 @@
 import SubmitButton from "@/components/button/SubmitButton.vue";
 import Message from "@/components/RequestMessage.vue";
 import { mapGetters, mapActions } from "vuex";
+import qs from "qs";
+import axios from "axios";
+
 export default {
   components: { SubmitButton, Message },
+
   data() {
     return { username: "", password: "", message: "", type: "" };
   },
   computed: { ...mapGetters(["getLoadingState", "getAccessToken", "getRefreshToken"]) },
+
   methods: {
-    ...mapActions(["authUser"]),
+    ...mapActions(["authUser", "attemptUserprofile"]),
+
     login() {
       if (this.password.trim() && this.username.trim()) {
         this.$store.dispatch("loadingState", true);
-        localStorage.setItem("accessToken", "");
-        this.authUser({ username: this.username, password: this.password })
+        if (localStorage.getItem("accessToken") != null) {
+          localStorage.removeItem("accessToken");
+        }
+        axios
+          .post(
+            "login",
+            qs.stringify({ username: this.username, password: this.password }),
+            {
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }
+          )
           .then((response) => {
-            console.log(response.data);
             this.$store.dispatch("loadingState", false);
             localStorage.setItem("accessToken", response.data.access_token);
             localStorage.setItem("refreshToken", response.data.refresh_token);
-            this.$router.push("/");
+            axios
+              .get("profile", {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("accessToken"),
+                },
+              })
+              .then((res) => {
+                localStorage.setItem("userData", JSON.stringify(res.data));
+                this.$store.dispatch(
+                  "attemptUserProfile",
+                  localStorage.getItem("userData")
+                );
+                this.$router.push("/");
+              });
           })
+
           .catch(() => {
             this.$store.dispatch("loadingState", false);
-            console.log("Email Ou Mot De Passe Incorrect");
+            this.message = "Email Ou Mot De Passe Incorrect";
+            this.type = "danger";
           });
       } else {
-        console.log(this.getAccessToken);
-        console.log("Remplire Les Champs Vide");
+        this.message = "Remplire Les Champs Vide";
+        this.type = "danger";
       }
     },
   },
 };
 </script>
+
 <template>
   <div class="appLogin text-center">
     <main class="form-signin w-100 m-auto">
@@ -46,7 +76,11 @@ export default {
           height="57"
         />
         <h1 class="h3 mb-3 fw-normal text-muted">Notre Dames De Loudres</h1>
-        <Message type="success" message="ok ok" />
+        <Message
+          :type="this.type"
+          :message="this.message"
+          v-if="this.type && this.message"
+        />
         <div class="form-floating">
           <input
             type="text"

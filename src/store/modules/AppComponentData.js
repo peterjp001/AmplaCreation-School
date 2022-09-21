@@ -39,11 +39,6 @@ const state = {
             link:"/users"
         },
         {
-            title:"Login",
-            icon:"bi bi-people",
-            link:"/login"
-        },
-        {
             title:"BlankPage",
             icon:"bi bi-people",
             link:"/blankpage"

@@ -8,6 +8,7 @@ import GradeView from '../views/GradeView.vue'
 import NotesView from '../views/NotesView.vue'
 import StudentView from '../views/StudentView.vue'
 import BlankView from '../views/BlankView.vue'
+import EditUserView from '../views/EditUserView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,7 +57,13 @@ const router = createRouter({
       path: '/blankpage',
       name: 'blankpage',
       component: BlankView
-    }
+    },
+    {
+      path: '/edituser/:user_id',
+      name: 'user',
+      component: EditUserView,
+      props:true
+    },
     
     // ,
     // {
@@ -68,6 +75,11 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login' && localStorage.getItem("accessToken") == null && localStorage.getItem("userData") == null) next({ name: 'login' })
+  else next()
 })
 
 export default router

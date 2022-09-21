@@ -1,3 +1,4 @@
+<script></script>
 <template>
   <div>
     <div
@@ -9,9 +10,7 @@
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content"><slot></slot></div>
-      </div>
+      <slot></slot>
     </div>
   </div>
 </template>

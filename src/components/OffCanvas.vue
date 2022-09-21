@@ -1,15 +1,15 @@
 <script>
 import NavLink from "@/components/NavLink.vue";
+// import { mapGetters } from "vuex";
 export default {
   components: {
     NavLink,
   },
-  data() {
-    return {
-      navData: [],
-    };
-  },
+
   computed: {
+    getUserProfile() {
+      return this.$store.getters.getUserProfile;
+    },
     getSData() {
       return this.$store.getters.getSideBarData;
     },
@@ -18,6 +18,7 @@ export default {
     logout() {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userData");
       this.$router.push("/login");
     },
   },
@@ -44,10 +45,17 @@ export default {
                   alt=""
                   loading="lazy"
                 />
-                <span> Peter Jp </span>
+                <span class="px-2"> {{ this.getUserProfile.username }} </span>
               </a>
-              <a href="#" @click="logout" class="nav-link px-3 active">
-                <span class="me-2"> <i class="bi bi-box-arrow-right"></i></span>
+              <a
+                href="#"
+                @click="logout"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Se déconnecter"
+                class="nav-link px-3 active"
+              >
+                <span> <i class="bi bi-box-arrow-right"></i></span>
               </a>
             </div>
             <hr class="dropdown-divider" />

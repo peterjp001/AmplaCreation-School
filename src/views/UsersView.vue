@@ -4,15 +4,23 @@ import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import ModalAddUser from "@/components/ModalAddUser.vue";
 
+// import { mapGetters } from "vuex";
+
 export default {
   components: { Navbar, Offcanvas, Titlebar, ModalAddUser },
   data() {
     return {};
   },
   computed: {
+    getListUsers() {
+      return this.$store.getters.getListUsers;
+    },
     getCData() {
       return this.$store.getters.getCardData;
     },
+  },
+  mounted() {
+    this.$store.dispatch("fetchUsers");
   },
 };
 </script>
@@ -61,164 +69,26 @@ export default {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
+                    <tr v-for="user in this.getListUsers" :key="user.index">
+                      <td>{{ user.id }}</td>
+                      <td>{{ user.username }}</td>
                       <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
+                        <span
+                          v-for="role in user.roles"
+                          :key="role.id"
+                          class="badge mx-1"
+                          :class="role.roleName == 'USER' ? 'bg-warning' : 'bg-success'"
+                          >{{ role.roleName }}</span
+                        >
                       </td>
                       <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>
-                        <span class="badge bg-success">ADMIN</span
-                        ><span class="badge bg-warning">USER</span>
-                      </td>
-                      <td class="">
-                        <select
-                          class="form-select float-end w-50 form-select-lg"
-                          name=""
-                          id=""
-                        >
-                          <option disabled selected>Select one</option>
-                          <option value="">Visualiser</option>
-                          <option value="">Supprimer</option>
-                          <option value="">Modifier</option>
-                        </select>
+                        <RouterLink :to="`/edituser/${user.id}`"
+                          ><span class="btn btn-sm btn-primary mx-1"
+                            ><i class="bi bi-pen"></i></span
+                        ></RouterLink>
+                        <span class="btn btn-sm btn-danger mx-1"
+                          ><i class="bi bi-trash"></i
+                        ></span>
                       </td>
                     </tr>
                   </tbody>

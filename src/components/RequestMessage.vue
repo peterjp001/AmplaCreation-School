@@ -4,8 +4,12 @@ export default {
 };
 </script>
 <template>
-  <div class="alert alert-{{this.type}} alert-dismissible fade show" role="alert">
-    <span>{{ this.message }}</span>
+  <div
+    class="alert alert-dismissible fade show"
+    :class="`alert-` + this.type"
+    role="alert"
+  >
+    {{ this.message }}
     <button
       type="button"
       class="btn-close"
