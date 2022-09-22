@@ -11,12 +11,8 @@ const state = {
 const getters = {
     getUserProfile:   state => JSON.parse(state.userProfile), 
     getUserInfo:   state => state.userInfo, 
-    getListUsers:   state => state.listUsers, 
-    // getAccessToken: () => localStorage.getItem("accessToken"),
-    // getRefreshToken: () => localStorage.getItem("refreshToken"),
-    getLoadingState : state => state.loadingButton,
-    // getLoginMethod: state =>state.loginMethod,
-    // getRegisterData: state =>state.registerData
+    getListUsers:   state => state.listUsers,
+    getLoadingState : state => state.loadingButton
 };
 
 const actions = {
@@ -27,21 +23,28 @@ const actions = {
  
   
     async fetchUsers ({commit}){
-        axios.get("users")
+        axios.get("users", {
+            headers: {Authorization: "Bearer " + localStorage.getItem("accessToken"),}
+        })
         .then(response => {
         commit('SET_LIST_USERS', response.data)
-        }).catch(function (error) {
-            console.log(error);
         });
     },
 
     async fetchUser ({commit},id){
-        axios.get(`user/${id}`)
+        axios.get(`user/${id}`, {
+            headers: {Authorization: "Bearer " + localStorage.getItem("accessToken"),}
+        })
         .then(response => {
         commit('SET_USER_INFO', response.data)
-        }).catch(function (error) {
-            console.log(error);
         });
+    },
+
+    async addRoleToUser ( userName,role){   
+        return  axios.post(`addroletouser/user/${userName}/role/${role}`, { headers: {Authorization: "Bearer " + localStorage.getItem("accessToken")}});
+    },
+    async removeRoleToUser ( userName,role){   
+        return  axios.post(`removeroletouser/user/${userName}/role/${role}`, { headers: {Authorization: "Bearer " + localStorage.getItem("accessToken")}});
     },
 
       
@@ -60,9 +63,7 @@ const actions = {
 const mutations = {
     SET_USER_PROFILE: (state, userProfile) => state.userProfile = userProfile, 
     SET_USER_INFO: (state, userInfo) => state.userInfo = userInfo, 
-    SET_LIST_USERS: (state, listUsers) => state.listUsers = listUsers, 
-    // SET_ACCESS_TOKEN: (state, accessToken) => state.accessToken = localStorage.setItem("accessToken",accessToken),
-    // SET_REFRESH_TOKEN: (state,  refrechToken) =>state.refrechToken= localStorage.setItem("accessToken",refrechToken),
+    SET_LIST_USERS: (state, listUsers) => state.listUsers = listUsers,
     SET_LOADING_BUTTON: (state, loadingButton) => state.loadingButton = loadingButton
 };
 

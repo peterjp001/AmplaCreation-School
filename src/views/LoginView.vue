@@ -18,10 +18,11 @@ export default {
 
     login() {
       if (this.password.trim() && this.username.trim()) {
-        this.$store.dispatch("loadingState", true);
         if (localStorage.getItem("accessToken") != null) {
           localStorage.removeItem("accessToken");
         }
+        this.$store.dispatch("loadingState", true);
+
         axios
           .post(
             "login",

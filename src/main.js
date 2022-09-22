@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './axiosConfiguration.js';
-
-import './assets/main.css'
-
+import './assets/main.css' 
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+ 
 const app = createApp(App)
 
 app.use(router)

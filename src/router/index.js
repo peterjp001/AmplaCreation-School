@@ -9,10 +9,16 @@ import NotesView from '../views/NotesView.vue'
 import StudentView from '../views/StudentView.vue'
 import BlankView from '../views/BlankView.vue'
 import EditUserView from '../views/EditUserView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/:patchMatch(.*)*',
+      name: 'notfound',
+      component: NotFoundView
+    },
     {
       path: '/',
       name: 'home',
