@@ -27,12 +27,10 @@ export default {
       deleteUser(this.userData.id).then((res) => {
         if (res.status == 200) {
           NotyfMessage(`Utilisateur Supprimé`, "success");
-          console.log("this is my code");
-          window.$("#sb").attr("data-bs-dismiss", "modal");
-          window.$("#sb").click();
+          window.$("#deleteUser").modal("hide");
           this.debounce = setTimeout(() => {
             this.$router.push("/users");
-          }, 1500);
+          }, 1000);
         }
       });
     },

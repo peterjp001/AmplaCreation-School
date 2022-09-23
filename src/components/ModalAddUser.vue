@@ -8,6 +8,7 @@ import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
 import { addUser } from "../service/userservice.js";
 import { NotyfMessage } from "../utilities";
+import RequestMessage from "./RequestMessage.vue";
 export default {
   components: {
     ModalContainer,
@@ -17,6 +18,7 @@ export default {
     ModalFooter,
     ModalDialog,
     SubmitButton,
+    RequestMessage,
   },
   data() {
     return { username: "", password: "", confirmation: "", roles: [] };
@@ -43,20 +45,17 @@ export default {
         const myarr = this.roles;
         for (let i = 0; i < myarr.length; i++) {
           if (myarr[i].roleName === role) myarr.splice(i, 1);
-          console.log(myarr);
         }
       }
     },
     saveUser() {
       let user = { username: this.username, password: this.password, roles: this.roles };
-      console.log(JSON.stringify(user));
       addUser(user)
         .then((res) => {
           console.log(res);
           this.$store.dispatch("fetchUsers");
           NotyfMessage("Utilisateur Ajouté", "success");
-          window.$("#sb").attr("data-bs-dismiss", "modal");
-          window.$("#sb")[0].click();
+          window.$("#addUser").modal("hide");
         })
         .catch((err) => {
           if (err.response.status == 400) {
@@ -78,6 +77,12 @@ export default {
       <ModalDialog>
         <ModalHeader title="Nouveau Utilisateur" />
         <ModalBody>
+          <RequestMessage
+            class="text-center"
+            type="danger"
+            message="Les mots de passe ne correspondent pas!"
+            v-if="password !== confirmation"
+          />
           <div class="mb-3">
             <label for="">Nom Utilisateur</label>
             <input
@@ -130,7 +135,7 @@ export default {
         </ModalBody>
         <ModalFooter>
           <SubmitButton
-            id="sb"
+            id="add"
             class="btn-primary"
             name="Sauvegarder"
             @click="saveUser()"

@@ -7,9 +7,17 @@ import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import { NotyfMessage } from "../utilities";
+import RequestMessage from "@/components/RequestMessage.vue";
 
 export default {
-  components: { Navbar, Offcanvas, Titlebar, SubmitButton, ModalDeleteUser },
+  components: {
+    Navbar,
+    Offcanvas,
+    Titlebar,
+    SubmitButton,
+    ModalDeleteUser,
+    RequestMessage,
+  },
   props: ["user_id"],
   data() {
     return {
@@ -178,12 +186,19 @@ export default {
                 </div>
                 <div class="col-sm-6 mb-3">
                   <form v-on:submit.prevent="updateUserPassword">
+                    <RequestMessage
+                      class="text-center"
+                      type="danger"
+                      message="Les mots de passe ne correspondent pas!"
+                      v-if="password !== confirmation"
+                    />
                     <div class="mb-3">
                       <label for="" class="form-label">Mot De Passe </label>
                       <input
                         :disabled="this.getUserInfo.username == 'JohnDoe'"
                         type="password"
                         class="form-control w-75"
+                        :class="password !== confirmation ? 'is-invalid' : ''"
                         :value="password"
                         @input="(event) => (password = event.target.value.trim())"
                       />
@@ -194,6 +209,7 @@ export default {
                         :disabled="this.getUserInfo.username == 'JohnDoe'"
                         type="password"
                         class="form-control w-75"
+                        :class="password !== confirmation ? 'is-invalid' : ''"
                         :value="confirmation"
                         @input="(event) => (confirmation = event.target.value.trim())"
                       />
