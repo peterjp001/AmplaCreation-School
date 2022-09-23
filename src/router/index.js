@@ -8,7 +8,7 @@ import GradeView from '../views/GradeView.vue'
 import NotesView from '../views/NotesView.vue'
 import StudentView from '../views/StudentView.vue'
 import BlankView from '../views/BlankView.vue'
-import EditUserView from '../views/EditUserView.vue'
+import InfoUserView from '../views/InfoUserView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 
 const router = createRouter({
@@ -65,9 +65,9 @@ const router = createRouter({
       component: BlankView
     },
     {
-      path: '/edituser/:user_id',
+      path: '/user/:user_id',
       name: 'user',
-      component: EditUserView,
+      component: InfoUserView,
       props:true
     },
     

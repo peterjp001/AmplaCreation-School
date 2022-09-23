@@ -3,7 +3,6 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import ModalAddUser from "@/components/ModalAddUser.vue";
-
 // import { mapGetters } from "vuex";
 
 export default {
@@ -82,13 +81,12 @@ export default {
                         >
                       </td>
                       <td class="">
-                        <RouterLink :to="`/edituser/${user.id}`"
-                          ><span class="btn btn-sm btn-primary mx-1"
-                            ><i class="bi bi-pen"></i></span
-                        ></RouterLink>
-                        <span class="btn btn-sm btn-danger mx-1"
-                          ><i class="bi bi-trash"></i
-                        ></span>
+                        <div>
+                          <RouterLink :to="`/user/${user.id}`"
+                            ><span class="btn btn-sm btn-primary mx-1"
+                              ><i class="bi bi-eye"></i></span
+                          ></RouterLink>
+                        </div>
                       </td>
                     </tr>
                   </tbody>

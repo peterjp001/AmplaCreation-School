@@ -3,13 +3,13 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
+import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
 import { mapGetters } from "vuex";
-import { Notyf } from "notyf";
 import axios from "axios";
-const notyf = new Notyf();
+import { NotyfMessage } from "../utilities";
 
 export default {
-  components: { Navbar, Offcanvas, Titlebar, SubmitButton },
+  components: { Navbar, Offcanvas, Titlebar, SubmitButton, ModalDeleteUser },
   props: ["user_id"],
   data() {
     return {
@@ -37,7 +37,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 200) notyf.success(`Mot de passe modifié`);
+          if (res.status == 200) NotyfMessage(`Mot de passe modifié`, "success");
           this.password = null;
           this.confirmation = "";
         });
@@ -62,12 +62,12 @@ export default {
               .then((res) => {
                 console.log(res.data.id);
                 this.$store.dispatch("fetchUser", res.data.id);
-                if (res.status == 200) notyf.success(`Nom utilisateur modifié`);
+                if (res.status == 200) NotyfMessage(`Nom utilisateur modifié`, "success");
               });
           } else {
-            notyf.error(`Nom utilisateur ne peut pas etre vide`);
+            NotyfMessage(`Nom utilisateur ne peut pas etre vide`, "error");
           }
-        }, 2000);
+        }, 1500);
       }
     },
 
@@ -81,7 +81,8 @@ export default {
             headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") },
           })
           .then((res) => {
-            if (res.status == 200) notyf.success(`Role ${role} Ajouté a ${user}`);
+            if (res.status == 200)
+              NotyfMessage(`Role ${role} Ajouté a ${user}`, "success");
           });
       } else {
         axios
@@ -89,7 +90,8 @@ export default {
             headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") },
           })
           .then((res) => {
-            if (res.status == 200) notyf.success(`Role ${role} enlevé a ${user}`);
+            if (res.status == 200)
+              NotyfMessage(`Role ${role} enlevé a ${user}`, "success");
           });
       }
     },
@@ -124,8 +126,11 @@ export default {
         <div class="card shadow mt-3 p-2">
           <div class="row mt-2">
             <div class="col-12">
-              <div class="border-bottom">
+              <div class="border-bottom d-flex justify-content-between">
                 <h5 class="fw-bold">Informations Utilisateurs</h5>
+                <div class="p-2">
+                  <ModalDeleteUser :userData="this.getUserInfo" />
+                </div>
               </div>
             </div>
             <div class="col-12 mt-2">
@@ -135,6 +140,7 @@ export default {
                     <div class="mb-3">
                       <label for="" class="form-label">Nom Utilisateur</label>
                       <input
+                        :disabled="this.getUserInfo.username == 'JohnDoe'"
                         type="text"
                         class="form-control w-75"
                         :value="this.getUserInfo.username"
@@ -147,6 +153,7 @@ export default {
                         <div class="form-check form-check-inline">
                           <label class="form-check-label" for="USER">USER</label>
                           <input
+                            :disabled="this.getUserInfo.username == 'JohnDoe'"
                             class="form-check-input"
                             type="checkbox"
                             id="USER"
@@ -157,6 +164,7 @@ export default {
                         <div class="form-check form-check-inline">
                           <label class="form-check-label" for="ADMIN">ADMIN</label>
                           <input
+                            :disabled="this.getUserInfo.username == 'JohnDoe'"
                             class="form-check-input"
                             type="checkbox"
                             id="ADMIN"
@@ -173,6 +181,7 @@ export default {
                     <div class="mb-3">
                       <label for="" class="form-label">Mot De Passe </label>
                       <input
+                        :disabled="this.getUserInfo.username == 'JohnDoe'"
                         type="password"
                         class="form-control w-75"
                         :value="password"
@@ -182,6 +191,7 @@ export default {
                     <div class="mb-3">
                       <label for="" class="form-label">Confirmation </label>
                       <input
+                        :disabled="this.getUserInfo.username == 'JohnDoe'"
                         type="password"
                         class="form-control w-75"
                         :value="confirmation"

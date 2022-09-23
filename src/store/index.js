@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
  
 import user from './modules/user' 
-import SidebarData from './modules/AppComponentData' 
+import AppComponentData from './modules/AppComponentData' 
 
 export default createStore({
   state: {
@@ -13,6 +13,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    user ,SidebarData
+    user ,AppComponentData
   },
 })

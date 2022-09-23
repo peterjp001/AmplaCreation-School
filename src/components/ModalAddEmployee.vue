@@ -9,7 +9,7 @@ import ModalDialog from "@/components/modal/ModalDialog.vue";
 
 <template>
   <div>
-    <ModalOpenButton>
+    <ModalOpenButton class="btn btn-sm btn-primary mx-1">
       <span class="bi bi-person-plus"></span>
       <span>Nouveau Employee</span>
     </ModalOpenButton>
