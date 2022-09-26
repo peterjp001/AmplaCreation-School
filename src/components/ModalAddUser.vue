@@ -51,8 +51,7 @@ export default {
     saveUser() {
       let user = { username: this.username, password: this.password, roles: this.roles };
       addUser(user)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$store.dispatch("fetchUsers");
           NotyfMessage("Utilisateur Ajouté", "success");
           window.$("#addUser").modal("hide");

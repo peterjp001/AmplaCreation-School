@@ -1,14 +1,18 @@
-import axios from 'axios';
-// import router from './router'
-// import store from './store';
+import axios from 'axios'; 
 axios.defaults.baseURL = 'http://localhost:9090/api/v1/'
-if(localStorage.getItem("accessToken") != null){ 
-    axios.defaults.headers = { 'Accept':'application/json','Content-Type':'application/json'},
-    axios.defaults.headers = {'Authorization': 'Bearer '+ localStorage.getItem('accessToken')}
+if(localStorage.getItem("userData") != null){ 
+    axios.defaults.headers = { 'Accept':'application/json','Content-Type':'application/json'}
    
 } 
 
- 
+// // Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    const token = "Bearer "+ localStorage.getItem('accessToken');
+    if( localStorage.getItem('accessToken') != null){ 
+        config.headers.Authorization =  token;   
+    }
+        return config;
+    });
 
 axios.interceptors.response.use((response) => {
     return response
@@ -26,7 +30,6 @@ axios.interceptors.response.use((response) => {
         window.location.href = "/login";
         })
      
-    }
-    // if(error.code === '"ERR_NETWORK"') console.log("ok ok");
+    } 
     return Promise.reject(error)
 });

@@ -9,11 +9,11 @@ import ModalDialog from "@/components/modal/ModalDialog.vue";
 
 <template>
   <div>
-    <ModalOpenButton class="btn btn-sm btn-primary mx-1">
+    <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addEmployee">
       <span class="bi bi-person-plus"></span>
       <span>Nouveau Employee</span>
     </ModalOpenButton>
-    <ModalContainer>
+    <ModalContainer modalAction="addEmployee">
       <ModalDialog class="modal-lg">
         <ModalHeader title="Ajouter Employee" />
         <ModalBody>

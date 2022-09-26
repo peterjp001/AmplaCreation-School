@@ -1,18 +1,22 @@
 import axios from 'axios'
 import qs from 'qs';
 
+
+
 const state = {
     listUsers:{},
     userProfile:null,
     userInfo:null,
     loadingButton:false, 
+    token:localStorage.getItem("accessToken")
 };
 
 const getters = {
     getUserProfile:   state => JSON.parse(state.userProfile), 
     getUserInfo:   state => state.userInfo, 
     getListUsers:   state => state.listUsers,
-    getLoadingState : state => state.loadingButton
+    getLoadingState : state => state.loadingButton,
+    getToken: state=>state.token
 };
 
 const actions = {
@@ -40,13 +44,11 @@ const actions = {
         });
     },
 
-    async addRoleToUser ( userName,role){   
-        return  axios.post(`addroletouser/user/${userName}/role/${role}`, { headers: {Authorization: "Bearer " + localStorage.getItem("accessToken")}});
-    },
-    async removeRoleToUser ( userName,role){   
-        return  axios.post(`removeroletouser/user/${userName}/role/${role}`, { headers: {Authorization: "Bearer " + localStorage.getItem("accessToken")}});
-    },
+     async  addRoleToUser  (role,username) { return await  axios.post(`addroletouser/user/${username}/role/${role}`,this.getToken)},
+    async  removeRoleToUser (role,username) { return await axios.post(`removeroletouser/user/${username}/role/${role}`,this.getToken)},
 
+
+  
       
     attemptUserProfile ({commit}, user){
         commit('SET_USER_PROFILE', user)
