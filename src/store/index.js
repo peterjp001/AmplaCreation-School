@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
  
 import user from './modules/user' 
+import course from './modules/course' 
+import functions from './modules/function' 
 import AppComponentData from './modules/AppComponentData' 
 
 export default createStore({
@@ -13,6 +15,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    user ,AppComponentData
+    user ,AppComponentData,course,functions
   },
 })

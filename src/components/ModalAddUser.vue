@@ -6,7 +6,7 @@ import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalFooter from "@/components/modal/ModalFooter.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
-import { addUser } from "../service/userservice.js";
+import { addUser } from "../httpRequest/userRequest.js";
 import { NotyfMessage } from "../utilities";
 import RequestMessage from "./RequestMessage.vue";
 export default {
@@ -139,10 +139,13 @@ export default {
             name="Sauvegarder"
             @click="saveUser()"
             :disabled="
-              (password == null && confirmation == null) ||
-              (confirmation == '' && password == '') ||
-              confirmation != password ||
-              roles.length == 0
+              this.username == null ||
+              (this.username == '' &&
+                this.password == null &&
+                this.confirmation == null) ||
+              (this.confirmation == '' && this.password == '') ||
+              this.confirmation != this.password ||
+              this.roles.length == 0
             "
           />
         </ModalFooter>

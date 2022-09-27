@@ -4,18 +4,20 @@ const notyf = new Notyf();
 
 const NotyfMessage = (message, type) => {
     let msg = null;
+    const duration = 3000;
+    const dismissible = true;
 
     if(type == 'success'){
         msg = notyf.success({
             message: message,
-            duration: 9000,
-            dismissible: true,
+            duration: duration,
+            dismissible: dismissible,
           });
     }else{
         msg = notyf.error({
             message: message,
-            duration: 9000,
-            dismissible: true,
+            duration: duration,
+            dismissible: dismissible,
           });
     }
     return msg;

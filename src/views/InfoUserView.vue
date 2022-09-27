@@ -7,7 +7,11 @@ import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
 import { mapGetters } from "vuex";
 import { NotyfMessage } from "../utilities";
 import RequestMessage from "@/components/RequestMessage.vue";
-import { updateUser, addRoleToUser, removeRoleToUser } from "../service/userservice.js";
+import {
+  updateUser,
+  addRoleToUser,
+  removeRoleToUser,
+} from "../httpRequest/userRequest.js";
 
 export default {
   components: {

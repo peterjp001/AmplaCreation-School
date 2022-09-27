@@ -2,8 +2,7 @@
 import SubmitButton from "@/components/button/SubmitButton.vue";
 import Message from "@/components/RequestMessage.vue";
 import { mapGetters, mapActions } from "vuex";
-import qs from "qs";
-import axios from "axios";
+import { authUser, getProfile } from "../httpRequest/userRequest";
 
 export default {
   components: { SubmitButton, Message },
@@ -14,7 +13,7 @@ export default {
   computed: { ...mapGetters(["getLoadingState", "getAccessToken", "getRefreshToken"]) },
 
   methods: {
-    ...mapActions(["authUser", "attemptUserprofile"]),
+    ...mapActions(["attemptUserprofile"]),
 
     login() {
       if (this.password.trim() && this.username.trim()) {
@@ -23,32 +22,19 @@ export default {
         }
         this.$store.dispatch("loadingState", true);
 
-        axios
-          .post(
-            "login",
-            qs.stringify({ username: this.username, password: this.password }),
-            {
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            }
-          )
+        authUser({ username: this.username, password: this.password })
           .then((response) => {
             this.$store.dispatch("loadingState", false);
             localStorage.setItem("accessToken", response.data.access_token);
             localStorage.setItem("refreshToken", response.data.refresh_token);
-            axios
-              .get("profile", {
-                headers: {
-                  Authorization: "Bearer " + localStorage.getItem("accessToken"),
-                },
-              })
-              .then((res) => {
-                localStorage.setItem("userData", JSON.stringify(res.data));
-                this.$store.dispatch(
-                  "attemptUserProfile",
-                  localStorage.getItem("userData")
-                );
-                this.$router.push("/");
-              });
+            getProfile().then((res) => {
+              localStorage.setItem("userData", JSON.stringify(res.data));
+              this.$store.dispatch(
+                "attemptUserProfile",
+                localStorage.getItem("userData")
+              );
+              this.$router.push("/");
+            });
           })
 
           .catch(() => {

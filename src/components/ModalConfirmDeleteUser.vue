@@ -5,9 +5,8 @@ import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalFooter from "@/components/modal/ModalFooter.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
-import { deleteUser } from "../service/userservice.js";
+import { deleteUser } from "../httpRequest/userRequest.js";
 import { NotyfMessage } from "../utilities";
-// import $ from "jquery";
 
 export default {
   components: {

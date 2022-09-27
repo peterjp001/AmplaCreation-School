@@ -14,6 +14,8 @@ axios.interceptors.request.use(function (config) {
         return config;
     });
 
+
+    // // Add a response interceptor
 axios.interceptors.response.use((response) => {
     return response
 }, async (error) => { 
@@ -27,7 +29,7 @@ axios.interceptors.response.use((response) => {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
             localStorage.removeItem("userData"); 
-        window.location.href = "/login";
+            window.location.href = "/login";
         })
      
     } 
