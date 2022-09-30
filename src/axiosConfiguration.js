@@ -6,7 +6,7 @@ if(localStorage.getItem("userData") != null){
 } 
 
 // // Add a request interceptor
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) { 
     const token = "Bearer "+ localStorage.getItem('accessToken');
     if( localStorage.getItem('accessToken') != null){ 
         config.headers.Authorization =  token;   
@@ -16,7 +16,7 @@ axios.interceptors.request.use(function (config) {
 
 
     // // Add a response interceptor
-axios.interceptors.response.use((response) => {
+axios.interceptors.response.use((response) => { 
     return response
 }, async (error) => { 
     if( error.response.status === 401) {

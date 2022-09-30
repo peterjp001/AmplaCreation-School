@@ -39,6 +39,16 @@ const state = {
             link:"/users"
         },
         {
+            title:"Statistiques",
+            icon:"bi bi-graph-up",
+            link:"/statistiques"
+        },
+        {
+            title:"Présence",
+            icon:"bi bi-upc-scan",
+            link:"/presence"
+        },
+        {
             title:"BlankPage",
             icon:"bi bi-people",
             link:"/blankpage"

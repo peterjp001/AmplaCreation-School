@@ -65,7 +65,7 @@ export default {
             <NavLink :linkData="item" />
           </li>
 
-          <li class="my-2">
+          <!-- <li class="my-2">
             <a
               class="nav-link px-3 sidebar-link"
               data-bs-toggle="collapse"
@@ -93,7 +93,7 @@ export default {
                 </li>
               </ul>
             </div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const  allEmployee = await function() { return  axios.get(`users`)}
-
+const  allEmployees = await function() { return  axios.get(`employees`)}
+const  addEmployee = await function(data) { return  axios.post(`newEmployeeWithNoAccount`,data)}
+const  getEmployee = await function(id) { return  axios.get(`employee/${id}`)}
 
 export {  
-    allEmployee, 
+    allEmployees, addEmployee,getEmployee
 };

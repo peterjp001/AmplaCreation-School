@@ -10,6 +10,10 @@ import StudentView from '../views/StudentView.vue'
 import BlankView from '../views/BlankView.vue'
 import InfoUserView from '../views/InfoUserView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
+import StatistiquesView from '../views/StatistiquesView.vue'
+import PresenceView from '../views/PresenceView.vue'
+import InfoEmployeeView from '../views/InfoEmployeeView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +39,12 @@ const router = createRouter({
       component: UsersView
     },
     {
+      path: '/user/:user_id',
+      name: 'user',
+      component: InfoUserView,
+      props:true
+    },
+    {
       path: '/course',
       name: 'course',
       component: CourseView
@@ -43,6 +53,12 @@ const router = createRouter({
       path: '/employee',
       name: 'employee',
       component: EmployeeView
+    },
+    {
+      path: '/employee/:employee_id',
+      name: 'employeeInfo',
+      component: InfoEmployeeView,
+      props:true
     },
     {
       path: '/grade',
@@ -65,10 +81,14 @@ const router = createRouter({
       component: BlankView
     },
     {
-      path: '/user/:user_id',
-      name: 'user',
-      component: InfoUserView,
-      props:true
+      path: '/statistiques',
+      name: 'statistiques',
+      component: StatistiquesView
+    },
+    {
+      path: '/presence',
+      name: 'presence',
+      component: PresenceView
     },
     
     // ,

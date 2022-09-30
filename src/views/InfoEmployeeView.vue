@@ -1,45 +1,11 @@
 <script>
-import ModalContainer from "@/components/modal/ModalContainer.vue";
-import ModalOpenButton from "@/components/modal/ModalOpenButton.vue";
-import ModalHeader from "@/components/modal/ModalHeader.vue";
-import ModalBody from "@/components/modal/ModalBody.vue";
-import ModalFooter from "@/components/modal/ModalFooter.vue";
-import ModalDialog from "@/components/modal/ModalDialog.vue";
-import SubmitButton from "@/components/button/SubmitButton.vue";
-import { addEmployee } from "@/httpRequest/employeeRequest";
-import { NotyfMessage } from "../utilities";
+import Navbar from "@/components/NavBar.vue";
+import Offcanvas from "@/components/OffCanvas.vue";
+import Titlebar from "@/components/TitleBar.vue";
 
 export default {
-  components: {
-    ModalContainer,
-    ModalOpenButton,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    ModalDialog,
-    SubmitButton,
-  },
-  computed: {
-    getFunctions() {
-      return this.$store.getters.getListFunctions;
-    },
-    isImputEmpty() {
-      if (
-        this.lastName == null ||
-        this.firstName == null ||
-        this.email == null ||
-        this.nif == null ||
-        this.phone == null ||
-        this.birthDate == null ||
-        this.sexe == null ||
-        this.functions.length == 0
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
+  props: ["employee_id"],
+  components: { Navbar, Offcanvas, Titlebar },
   data() {
     return {
       lastName: null,
@@ -52,7 +18,14 @@ export default {
       functions: [],
     };
   },
-
+  computed: {
+    getEmployee() {
+      return this.$store.getters.getEmployee;
+    },
+    getFunctions() {
+      return this.$store.getters.getListFunctions;
+    },
+  },
   methods: {
     isUserHasFunction(funcs, func) {
       let stmt = null;
@@ -77,52 +50,46 @@ export default {
         }
       }
     },
-    newEmployee() {
-      const employee = {
-        lastName: this.lastName,
-        firstName: this.firstName,
-        email: this.email,
-        nif: this.nif,
-        phone: this.phone,
-        birthDate: this.birthDate,
-        sexe: this.sexe,
-        functions: this.functions,
-      };
-      addEmployee(employee)
-        .then(() => {
-          NotyfMessage("Employée ajouté", "success");
-          window.$("#addEmployee").modal("hide");
-          this.$store.dispatch("fetchEmployees");
-        })
-        .catch((err) => {
-          if (err.response.status == 400) {
-            NotyfMessage(err.response.data.errorMessage, "error");
-          }
-        });
-    },
   },
   mounted() {
+    this.$store.dispatch("fetchEmployee", this.employee_id);
+
     this.$store.dispatch("fetchFunctions");
   },
 };
 </script>
 
 <template>
-  <div>
-    <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addEmployee">
-      <span class="bi bi-person-plus"></span>
-      <span>Nouveau Employee</span>
-    </ModalOpenButton>
-    <ModalContainer modalAction="addEmployee">
-      <ModalDialog class="modal-lg">
-        <ModalHeader title="Ajouter Employee" />
-        <ModalBody>
-          <div class="row row-cols-1 row-cols-sm-2">
+  <div v-if="this.getFunctions && this.getEmployee">
+    <Navbar />
+
+    <Offcanvas />
+
+    <main class="mt-5">
+      <div class="container-fluid">
+        <Titlebar
+          :title="`Employé: ${this.getEmployee.firstName} ${this.getEmployee.lastName}`"
+        />
+
+        <div class="card shadow mt-3 p-2">
+          <div class="card-header acc-bg d-flex justify-content-between">
+            <span>Informations Personnelles</span>
+            <div>
+              <button class="btn btn-sm btn-light mx-1">
+                <i class="bi bi-pen"></i>
+              </button>
+              <button class="btn btn-sm btn-danger">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 mt-2">
             <div class="col mb-3">
               <input
                 type="text"
                 class="form-control"
                 placeholder="Nom"
+                :value="this.getEmployee.lastName"
                 @input="(event) => (lastName = event.target.value.trim())"
               />
             </div>
@@ -131,6 +98,7 @@ export default {
                 type="text"
                 class="form-control"
                 placeholder="Prénom"
+                :value="this.getEmployee.firstName"
                 @input="(event) => (firstName = event.target.value.trim())"
               />
             </div>
@@ -140,6 +108,7 @@ export default {
                 type="email"
                 class="form-control"
                 placeholder="Email"
+                :value="this.getEmployee.email"
                 @input="(event) => (email = event.target.value.trim())"
               />
             </div>
@@ -148,6 +117,7 @@ export default {
                 type="text"
                 class="form-control"
                 placeholder="Nif"
+                :value="this.getEmployee.nif"
                 @input="(event) => (nif = event.target.value.trim())"
               />
             </div>
@@ -159,6 +129,7 @@ export default {
                   aria-label="First name"
                   class="form-control"
                   placeholder="00000000"
+                  :value="this.getEmployee.phone"
                   @input="(event) => (phone = event.target.value.trim())"
                 />
               </div>
@@ -185,6 +156,7 @@ export default {
                     id="masculin"
                     value="Masculin"
                     v-model="sexe"
+                    :checked="this.getEmployee.sexe == 'Masculin'"
                   />
                   <label class="form-check-label" for="masculin">Masculin</label>
                 </div>
@@ -193,8 +165,9 @@ export default {
                     class="form-check-input"
                     type="radio"
                     id="feminin"
-                    value="Feminin"
+                    value="Féminin"
                     v-model="sexe"
+                    :checked="this.getEmployee.sexe == 'Féminin'"
                   />
                   <label class="form-check-label" for="feminin">Féminin</label>
                 </div>
@@ -216,6 +189,12 @@ export default {
                       class="form-check-input"
                       type="checkbox"
                       id="USER"
+                      :checked="
+                        this.isUserHasFunction(
+                          this.getEmployee.functions,
+                          item.functionName
+                        )
+                      "
                       @change="onChange(item.functionName, $event)"
                     />
                   </div>
@@ -223,16 +202,12 @@ export default {
               </div>
             </div>
           </div>
-        </ModalBody>
-        <ModalFooter>
-          <SubmitButton
-            class="btn-primary"
-            name="Sauvegarder"
-            @click="newEmployee"
-            :disabled="this.isImputEmpty"
-          />
-        </ModalFooter>
-      </ModalDialog>
-    </ModalContainer>
+        </div>
+
+        <div class="row row-cols-12 mt-2">
+          <div class="col pb-2"></div>
+        </div>
+      </div>
+    </main>
   </div>
 </template>

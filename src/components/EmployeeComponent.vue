@@ -7,9 +7,12 @@ export default {
     return {};
   },
   computed: {
-    getCData() {
-      return this.$store.getters.getCardData;
+    getEmployees() {
+      return this.$store.getters.getListEmployees;
     },
+  },
+  mounted() {
+    this.$store.dispatch("fetchEmployees");
   },
 };
 </script>
@@ -23,7 +26,7 @@ export default {
       <div class="col pb-2">
         <div class="card shadow">
           <div class="card-header acc-bg d-flex justify-content-between">
-            <span>Liste Utilisateurs</span>
+            <span>Liste Employés</span>
           </div>
           <div class="card-body">
             <table
@@ -33,26 +36,30 @@ export default {
             >
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>USERNAME</th>
-                  <th>ROLES</th>
+                  <th>CODE</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Sexe</th>
+                  <th>Telephone</th>
+                  <th>Nif</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Tiger</td>
-                  <td>Nixon</td>
+                <tr v-for="item in this.getEmployees" :key="item.id">
+                  <td>{{ item.codeEmployee }}</td>
+                  <td>{{ item.lastName }}</td>
+                  <td>{{ item.firstName }}</td>
+                  <td>{{ item.sexe }}</td>
+                  <td>{{ item.phone }}</td>
+                  <td>{{ item.nif }}</td>
                   <td>
-                    <span class="badge bg-success">ADMIN</span
-                    ><span class="badge bg-warning">USER</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Tiger</td>
-                  <td>Nixon</td>
-                  <td>
-                    <span class="badge bg-success">ADMIN</span
-                    ><span class="badge bg-warning">USER</span>
+                    <router-link
+                      :to="`/employee/${item.id}`"
+                      class="btn btn-sm btn-primary"
+                    >
+                      <i class="bi bi-info-circle"></i> Info
+                    </router-link>
                   </td>
                 </tr>
               </tbody>

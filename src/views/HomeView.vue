@@ -3,9 +3,10 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import CardDashboard from "@/components/CardDashboard.vue";
+import ChartComponent from "../components/ChartComponent.vue";
 
 export default {
-  components: { Navbar, Offcanvas, Titlebar, CardDashboard },
+  components: { Navbar, Offcanvas, Titlebar, CardDashboard, ChartComponent },
   data() {
     return {};
   },
@@ -30,6 +31,27 @@ export default {
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 pt-3">
           <div class="col" v-for="item in this.getCData" :key="item.index">
             <CardDashboard :cardData="item" />
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2">
+          <div class="col pb-2">
+            <div class="card shadow">
+              <div class="card-body">
+                <ChartComponent :idChart="'firstChart'" typeChart="line" title="Eleves" />
+              </div>
+            </div>
+          </div>
+          <div class="col pb-2">
+            <div class="card shadow">
+              <div class="card-body">
+                <ChartComponent
+                  :idChart="'secondChart'"
+                  typeChart="bar"
+                  title="Employees"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
