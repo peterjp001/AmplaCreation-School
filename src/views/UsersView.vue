@@ -3,10 +3,11 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import ModalAddUser from "@/components/ModalAddUser.vue";
+import ModalAddUserToEmployee from "@/components/ModalAddUserToEmployee.vue";
 // import { mapGetters } from "vuex";
 
 export default {
-  components: { Navbar, Offcanvas, Titlebar, ModalAddUser },
+  components: { Navbar, Offcanvas, Titlebar, ModalAddUser, ModalAddUserToEmployee },
   data() {
     return {};
   },
@@ -35,9 +36,12 @@ export default {
         <Titlebar title="Utilisateurs" />
 
         <div class="card shadow mt-3 p-2">
-          <div class="row row-cols-12 mt-2">
+          <div class="row row-cols-5 mt-2">
             <div class="col pb-2">
               <ModalAddUser />
+            </div>
+            <div class="col pb-2">
+              <ModalAddUserToEmployee />
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalFooter from "@/components/modal/ModalFooter.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
-import { addUser } from "../httpRequest/userRequest.js";
+import { addUserToEmployee } from "../httpRequest/userRequest.js";
 import { NotyfMessage } from "../utilities";
 import RequestMessage from "./RequestMessage.vue";
 export default {
@@ -21,7 +21,7 @@ export default {
     RequestMessage,
   },
   data() {
-    return { username: "", password: "", confirmation: "", roles: [] };
+    return { username: null, password: null, confirmation: null, roles: [], code: null };
   },
   methods: {
     isUserHasRole(roles, role) {
@@ -48,13 +48,13 @@ export default {
         }
       }
     },
-    saveUser() {
+    saveUserToEmployee() {
       let user = { username: this.username, password: this.password, roles: this.roles };
-      addUser(user)
+      addUserToEmployee(this.code, user)
         .then(() => {
           this.$store.dispatch("fetchUsers");
           NotyfMessage("Utilisateur Ajouté", "success");
-          window.$("#addUser").modal("hide");
+          window.$("#addUserToEmployee").modal("hide");
         })
         .catch((err) => {
           if (err.response.status == 400) {
@@ -68,13 +68,13 @@ export default {
 
 <template>
   <div>
-    <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addUser">
+    <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addUserToEmployee">
       <span class="bi bi-person-plus"></span>
-      <span> Nouveau Utilisateur</span>
+      <span> Utilisateur à Employé</span>
     </ModalOpenButton>
-    <ModalContainer modalAction="addUser">
+    <ModalContainer modalAction="addUserToEmployee">
       <ModalDialog>
-        <ModalHeader title="Nouveau Utilisateur" />
+        <ModalHeader title="Utilisateur à Employé" />
         <ModalBody>
           <RequestMessage
             class="text-center"
@@ -82,6 +82,14 @@ export default {
             message="Les mots de passe ne correspondent pas!"
             v-if="password !== confirmation"
           />
+          <div class="mb-3">
+            <label for="">Code Employé</label>
+            <input
+              type="text"
+              @input="(event) => (code = event.target.value.trim())"
+              class="form-control"
+            />
+          </div>
           <div class="mb-3">
             <label for="">Nom Utilisateur</label>
             <input
@@ -137,13 +145,11 @@ export default {
             id="add"
             class="btn-primary"
             name="Sauvegarder"
-            @click="saveUser()"
+            @click="saveUserToEmployee()"
             :disabled="
+              this.code == null ||
               this.username == null ||
-              (this.username == '' &&
-                this.password == null &&
-                this.confirmation == null) ||
-              (this.confirmation == '' && this.password == '') ||
+              (this.password == null && this.confirmation == null) ||
               this.confirmation != this.password ||
               this.roles.length == 0
             "

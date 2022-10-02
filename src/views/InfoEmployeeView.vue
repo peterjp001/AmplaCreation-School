@@ -2,10 +2,16 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-
+import SubmitButton from "@/components/button/SubmitButton.vue";
+import { NotyfMessage } from "../utilities";
+import {
+  updateEmployee,
+  addFunctionToEmployee,
+  removeFunctionToEmployee,
+} from "@/httpRequest/employeeRequest";
 export default {
   props: ["employee_id"],
-  components: { Navbar, Offcanvas, Titlebar },
+  components: { Navbar, Offcanvas, Titlebar, SubmitButton },
   data() {
     return {
       lastName: null,
@@ -16,6 +22,10 @@ export default {
       birthDate: null,
       sexe: null,
       functions: [],
+      removeF: [],
+      removeAction: false,
+      addF: [],
+      addAction: false,
     };
   },
   computed: {
@@ -29,26 +39,63 @@ export default {
   methods: {
     isUserHasFunction(funcs, func) {
       let stmt = null;
-      funcs.forEach((f) => {
-        if (f.functionName == func) {
-          stmt = f.functionName;
-        }
-      });
-
+      if (funcs != null) {
+        funcs.forEach((f) => {
+          if (f.functionName == func) {
+            stmt = f.functionName;
+          }
+        });
+      }
       return stmt;
     },
     onChange(func, $event) {
       const checked = $event.target.checked;
       if (checked) {
-        if (this.isUserHasFunction(this.functions, func) == null) {
-          this.functions.push({ functionName: func });
+        if (this.isUserHasFunction(this.removeF, func) != null) {
+          this.removeF.pop({ functionName: func });
+        }
+        if (this.isUserHasFunction(this.getEmployee.functions, func) == null) {
+          this.addF.push({ functionName: func });
         }
       } else {
-        const myarr = this.functions;
-        for (let i = 0; i < myarr.length; i++) {
-          if (myarr[i].functionName === func) myarr.splice(i, 1);
+        if (this.isUserHasFunction(this.getEmployee.functions, func) != null) {
+          this.removeF.push({ functionName: func });
+        }
+        if (this.isUserHasFunction(this.addF, func) != null) {
+          this.addF.pop({ functionName: func });
         }
       }
+    },
+    updateEmployee() {
+      const employee = {
+        lastName: this.lastName,
+        firstName: this.firstName,
+        email: this.email,
+        nif: this.nif,
+        phone: this.phone,
+        birthDate: this.birthDate,
+        sexe: this.sexe,
+      };
+      updateEmployee(this.employee_id, employee).catch((err) => {
+        console.log(err);
+      });
+
+      if (this.addF.length > 0) {
+        this.addF.forEach((f) => {
+          addFunctionToEmployee(this.employee_id, f.functionName).catch((err) => {
+            console.log(err);
+          });
+        });
+      }
+      if (this.removeF.length > 0) {
+        this.removeF.forEach((f) => {
+          removeFunctionToEmployee(this.employee_id, f.functionName).catch((err) => {
+            console.log(err);
+          });
+        });
+      }
+      NotyfMessage("Informations Modifié", "success");
+      this.$store.dispatch("fetchEmployee", this.employee_id);
     },
   },
   mounted() {
@@ -68,7 +115,8 @@ export default {
     <main class="mt-5">
       <div class="container-fluid">
         <Titlebar
-          :title="`Employé: ${this.getEmployee.firstName} ${this.getEmployee.lastName}`"
+          :title="`Employé: ${this.getEmployee.firstName} ${this.getEmployee.lastName} 
+          |      Code:  ${this.getEmployee.codeEmployee}`"
         />
 
         <div class="card shadow mt-3 p-2">
@@ -182,13 +230,13 @@ export default {
                     v-for="item in this.getFunctions"
                     :key="item.id"
                   >
-                    <label class="form-check-label" for="USER">{{
+                    <label class="form-check-label" :for="item.id">{{
                       item.functionName
                     }}</label>
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      id="USER"
+                      :id="item.id"
                       :checked="
                         this.isUserHasFunction(
                           this.getEmployee.functions,
@@ -200,6 +248,13 @@ export default {
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col mb-3">
+              <SubmitButton
+                class="btn btn-primary"
+                name="Modifier"
+                @click="updateEmployee"
+              />
             </div>
           </div>
         </div>

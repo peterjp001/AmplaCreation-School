@@ -209,13 +209,13 @@ export default {
                     v-for="item in this.getFunctions"
                     :key="item.id"
                   >
-                    <label class="form-check-label" for="USER">{{
+                    <label class="form-check-label" :for="item.id">{{
                       item.functionName
                     }}</label>
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      id="USER"
+                      :id="item.id"
                       @change="onChange(item.functionName, $event)"
                     />
                   </div>
