@@ -6,7 +6,8 @@ import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalFooter from "@/components/modal/ModalFooter.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "./button/SubmitButton.vue";
-// import { NotyfMessage } from "../utilities";
+import { NotyfMessage } from "../utilities";
+import { reactive } from "vue";
 
 export default {
   components: {
@@ -19,15 +20,44 @@ export default {
     SubmitButton,
   },
 
-  data() {
-    return { cours: 1 };
+  setup() {
+    const form = reactive([
+      { courseName: null, teacherName: null, timeStart: null, timeEnd: null },
+    ]);
+    const grade = reactive({ gradeName: null });
+
+    const addCourse = () => {
+      form.push({ courseName: null, teacherName: null, timeStart: null, timeEnd: null });
+    };
+
+    const removeCourse = (index) => {
+      if (form.length > 1) form.splice(index, 1);
+    };
+
+    const saveGrade = () => {
+      for (let i = 0; i < form.length; i++) {
+        let item = form[i];
+        if (
+          item.courseName == null ||
+          item.teacherName == null ||
+          item.timeStart == null ||
+          item.timeEnd == null
+        ) {
+          NotyfMessage("no", "danger");
+        } else {
+          NotyfMessage("yes", "success");
+        }
+      }
+    };
+
+    return {
+      form,
+      grade,
+      addCourse,
+      removeCourse,
+      saveGrade,
+    };
   },
-  computed: {
-    getCours() {
-      return this.cours;
-    },
-  },
-  methods: { addCourseToClass() {} },
 };
 </script>
 
@@ -42,52 +72,49 @@ export default {
         <ModalHeader title="Ajouter Classe" />
         <ModalBody>
           <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Nom de la classe" />
+            <label for="">Nom de la classe</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nom de la classe"
+              v-model="grade.gradeName"
+            />
           </div>
+
           <div class="mb-3">
-            <div class="d-flex justify-content-between border-bottom p-2">
-              <span>Cours Info</span>
-              <button
-                class="btn btn-sm btn-primary rounded-circle"
-                @click="this.cours += 1"
-              >
-                <i class="bi bi-plus"></i>
+            <div class="d-flex">
+              <button class="btn btn-primary" @click="addCourse">
+                <i class="bi bi-plus"></i> Ajouter Cours
               </button>
             </div>
-            <div class=" ">
-              <div class="container" v-for="item in this.getCours" :key="item.id">
-                <div class="row row-cols-5 row-cols-sm-5 shadow py-3 my-2">
+            <hr />
+            <div class="container">
+              <form v-for="(item, index) in form" :key="item.id">
+                <div class="row row-cols-5 border shadow p-2">
                   <div class="col">
-                    <select class="form-select" name="" id="">
-                      <option disabled selected>Cours</option>
-                      <option>Istanbul</option>
-                      <option>Jakarta</option>
-                    </select>
+                    <input type="text" class="form-control" v-model="item.courseName" />
                   </div>
                   <div class="col">
-                    <select class="form-select" name="" id="">
-                      <option disabled selected>Professeur</option>
-                      <option>Istanbul</option>
-                      <option>Jakarta</option>
-                    </select>
+                    <input type="text" class="form-control" v-model="item.teacherName" />
                   </div>
-                  <div class="col">Column</div>
-                  <div class="col">Column</div>
                   <div class="col">
-                    <button
-                      class="btn btn-sm btn-danger rounded-circle"
-                      @click="this.cours -= 1"
-                    >
+                    <input type="text" class="form-control" v-model="item.timeStart" />
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" v-model="item.timeEnd" />
+                  </div>
+                  <div class="col d-flex justify-content-center">
+                    <button class="btn btn-danger" @click.prevent="removeCourse(index)">
                       <i class="bi bi-x-circle"></i>
                     </button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </ModalBody>
         <ModalFooter>
-          <SubmitButton name="Enregistrer" class="btn btn-primary" />
+          <SubmitButton name="Enregistrer" class="btn btn-primary" @click="saveGrade" />
         </ModalFooter>
       </ModalDialog>
     </ModalContainer>
