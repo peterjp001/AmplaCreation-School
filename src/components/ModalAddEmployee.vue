@@ -6,7 +6,7 @@ import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalFooter from "@/components/modal/ModalFooter.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
-import { addEmployee } from "@/httpRequest/employeeRequest";
+import { addEmployee, addEmployeeAsTeacher } from "@/httpRequest/employeeRequest";
 import { NotyfMessage } from "../utilities";
 
 export default {
@@ -19,27 +19,6 @@ export default {
     ModalDialog,
     SubmitButton,
   },
-  computed: {
-    getFunctions() {
-      return this.$store.getters.getListFunctions;
-    },
-    isImputEmpty() {
-      if (
-        this.lastName == null ||
-        this.firstName == null ||
-        this.email == null ||
-        this.nif == null ||
-        this.phone == null ||
-        this.birthDate == null ||
-        this.sexe == null ||
-        this.functions.length == 0
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
   data() {
     return {
       lastName: null,
@@ -50,7 +29,34 @@ export default {
       birthDate: null,
       sexe: null,
       functions: [],
+      isTeacher: false,
+      courses: [],
     };
+  },
+  computed: {
+    getFunctions() {
+      return this.$store.getters.getListFunctions;
+    },
+    getListCourses() {
+      return this.$store.getters.getListCourses;
+    },
+    isImputEmpty() {
+      if (
+        this.lastName == null ||
+        this.firstName == null ||
+        this.email == null ||
+        this.nif == null ||
+        this.phone == null ||
+        this.birthDate == null ||
+        this.sexe == null ||
+        this.functions.length == 0 ||
+        (this.isTeacher == true && this.courses.length == 0)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 
   methods: {
@@ -64,16 +70,36 @@ export default {
 
       return stmt;
     },
+    onChangeCourse(course, $event) {
+      const checked = $event.target.checked;
+      if (checked) {
+        if (this.isUserHasFunction(this.courses, course) == null) {
+          this.courses.push({ courseName: course });
+        }
+      } else {
+        const myarr = this.courses;
+        for (let i = 0; i < myarr.length; i++) {
+          if (myarr[i].courseName === course) myarr.splice(i, 1);
+        }
+      }
+    },
     onChange(func, $event) {
       const checked = $event.target.checked;
       if (checked) {
         if (this.isUserHasFunction(this.functions, func) == null) {
           this.functions.push({ functionName: func });
         }
+        if (func == "Professeur") {
+          this.isTeacher = true;
+        }
       } else {
         const myarr = this.functions;
         for (let i = 0; i < myarr.length; i++) {
           if (myarr[i].functionName === func) myarr.splice(i, 1);
+        }
+        if (func == "Professeur") {
+          this.isTeacher = false;
+          this.courses = [];
         }
       }
     },
@@ -88,20 +114,37 @@ export default {
         sexe: this.sexe,
         functions: this.functions,
       };
-      addEmployee(employee)
-        .then(() => {
-          NotyfMessage("Employée ajouté", "success");
-          window.$("#addEmployee").modal("hide");
-          this.$store.dispatch("fetchEmployees");
-        })
-        .catch((err) => {
-          if (err.response.status == 400) {
-            NotyfMessage(err.response.data.errorMessage, "error");
-          }
-        });
+      if (this.courses.length == 0) {
+        addEmployee(employee)
+          .then(() => {
+            NotyfMessage("Employée ajouté", "success");
+            window.$("#addEmployee").modal("hide");
+            this.$store.dispatch("fetchEmployees");
+          })
+          .catch((err) => {
+            if (err.response.status == 400) {
+              NotyfMessage(err.response.data.errorMessage, "error");
+            }
+          });
+      } else {
+        employee.courses = this.courses;
+        addEmployeeAsTeacher(employee)
+          .then((res) => {
+            console.log(res);
+            NotyfMessage("Employée ajouté", "success");
+            window.$("#addEmployee").modal("hide");
+            this.$store.dispatch("fetchEmployees");
+          })
+          .catch((err) => {
+            if (err.response.status == 400) {
+              NotyfMessage(err.response.data.errorMessage, "error");
+            }
+          });
+      }
     },
   },
   mounted() {
+    this.$store.dispatch("fetchCourses");
     this.$store.dispatch("fetchFunctions");
   },
 };
@@ -217,6 +260,31 @@ export default {
                       type="checkbox"
                       :id="item.id"
                       @change="onChange(item.functionName, $event)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mb-3">
+              <div v-if="this.isTeacher">
+                <h5>Liste des cours</h5>
+                <hr />
+                <div class="mb-3">
+                  <div
+                    class="form-check form-check-inline"
+                    v-for="item in this.getListCourses"
+                    :key="item.id"
+                  >
+                    <label class="form-check-label" :for="item.courseName">{{
+                      item.courseName
+                    }}</label>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      :id="item.courseName"
+                      @change="onChangeCourse(item.courseName, $event)"
                     />
                   </div>
                 </div>
