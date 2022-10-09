@@ -3,7 +3,7 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
-import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
+// import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
 import { mapGetters } from "vuex";
 import { NotyfMessage } from "../utilities";
 import RequestMessage from "@/components/RequestMessage.vue";
@@ -19,7 +19,7 @@ export default {
     Offcanvas,
     Titlebar,
     SubmitButton,
-    ModalDeleteUser,
+    // ModalDeleteUser,
     RequestMessage,
   },
   props: ["user_id"],
@@ -115,7 +115,7 @@ export default {
               <div class="border-bottom d-flex justify-content-between">
                 <h5 class="fw-bold">Informations Utilisateurs</h5>
                 <div class="p-2">
-                  <ModalDeleteUser :userData="this.getUserInfo" />
+                  <!-- <ModalDeleteUser :userData="this.getUserInfo" /> -->
                 </div>
               </div>
             </div>

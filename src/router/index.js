@@ -5,6 +5,7 @@ import UsersView from '../views/UsersView.vue'
 import CourseView from '../views/CourseView.vue'
 import EmployeeView from '../views/EmployeeView.vue'
 import GradeView from '../views/GradeView.vue'
+import GradeInfoView from '../views/GradeInfoView.vue'
 import NotesView from '../views/NotesView.vue'
 import StudentView from '../views/StudentView.vue'
 import BlankView from '../views/BlankView.vue'
@@ -13,6 +14,7 @@ import NotFoundView from '../views/NotFoundView.vue'
 import StatistiquesView from '../views/StatistiquesView.vue'
 import PresenceView from '../views/PresenceView.vue'
 import InfoEmployeeView from '../views/InfoEmployeeView.vue'
+import AcademicYearView from '../views/AcademicYearView.vue'
 
 
 const router = createRouter({
@@ -66,6 +68,12 @@ const router = createRouter({
       component: GradeView
     },
     {
+      path: '/grade/:grade_id',
+      name: 'gradeInfo',
+      component: GradeInfoView,
+      props:true
+    },
+    {
       path: '/student',
       name: 'student',
       component: StudentView
@@ -89,6 +97,11 @@ const router = createRouter({
       path: '/presence',
       name: 'presence',
       component: PresenceView
+    },
+    {
+      path: '/academicyear',
+      name: 'academicyear',
+      component: AcademicYearView
     },
     
     // ,

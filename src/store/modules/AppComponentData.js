@@ -29,7 +29,7 @@ const state = {
             link:"/notes"
         },
         {
-            title:"Employés",
+            title:"Employés / Fonctions",
             icon:"bi bi-people",
             link:"/employee"
         },
@@ -49,9 +49,9 @@ const state = {
             link:"/presence"
         },
         {
-            title:"BlankPage",
-            icon:"bi bi-people",
-            link:"/blankpage"
+            title:"Année Académique",
+            icon:"bi bi-calendar",
+            link:"/academicyear"
         }
     ],
     cardData:[

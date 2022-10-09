@@ -5,6 +5,8 @@ import course from './modules/course'
 import functions from './modules/function' 
 import employee from './modules/employee' 
 import AppComponentData from './modules/AppComponentData' 
+import AcademicYear from './modules/AcademicYear' 
+import grade from './modules/grade' 
 
 export default createStore({
   state: {
@@ -16,6 +18,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    user ,AppComponentData,course,functions,employee
+    user ,AppComponentData,course,functions,employee,AcademicYear,grade
   },
 })

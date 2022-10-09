@@ -1,5 +1,8 @@
 import axios from 'axios'; 
+
+
 axios.defaults.baseURL = 'http://localhost:9090/api/v1/'
+
 if(localStorage.getItem("userData") != null){ 
     axios.defaults.headers = { 'Accept':'application/json','Content-Type':'application/json'}
    

@@ -9,7 +9,6 @@ import SubmitButton from "./button/SubmitButton.vue";
 import { NotyfMessage } from "../utilities";
 import { reactive } from "vue";
 import { getTeachersForCourse } from "../httpRequest/courseRequest";
-
 export default {
   components: {
     ModalContainer,
@@ -20,8 +19,10 @@ export default {
     ModalDialog,
     SubmitButton,
   },
+  props: ["gradeData"],
+  setup(props) {
+    const gData = reactive(props.gradeData);
 
-  setup() {
     const form = reactive([
       { courseName: null, teacherName: null, timeStart: null, timeEnd: null },
     ]);
@@ -63,11 +64,11 @@ export default {
           } else {
             teachers[idForm] = [];
           }
-          console.log(teachers);
         })
         .catch((err) => {
           console.log(err);
         });
+      console.log(gData);
     };
 
     const setTeacher = (event) => {
@@ -99,76 +100,63 @@ export default {
 <template>
   <div>
     <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addCourse">
-      <i class="bi bi-house"></i>
-      <span> Nouvelle Classe</span>
+      <i class="bi bi-plus-circle"></i> Ajouter Cours
     </ModalOpenButton>
     <ModalContainer modalAction="addCourse">
       <ModalDialog class="modal-lg modal-dialog-scrollable">
-        <ModalHeader title="Ajouter Classe" />
+        <ModalHeader>
+          <div class="d-flex sticky-top">
+            <button class="btn btn-sm btn-primary" @click="addCourse">
+              <i class="bi bi-plus"></i> Ajouter
+            </button>
+          </div>
+        </ModalHeader>
         <ModalBody>
           <div class="mb-3">
-            <label for="">Nom de la classe</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Nom de la classe"
-              v-model="grade.gradeName"
-            />
-          </div>
-
-          <div class="mb-3">
-            <div class="d-flex sticky-top">
-              <button class="btn btn-primary" @click="addCourse">
-                <i class="bi bi-plus"></i> Ajouter Cours
-              </button>
-            </div>
-            <hr />
-            <div class="">
-              <form v-for="(item, index) in form" :key="item.id">
-                <div class="row row-cols-5 border shadow p-2 my-2">
-                  <div class="col">
-                    <!-- <input type="text" class="form-control" v-model="item.courseName" /> -->
-                    <label for="" class="form-label">Cours</label>
-                    <select
-                      class="form-select"
-                      @change="setCourse($event, index)"
-                      v-model="item.courseName"
+            <form v-for="(item, index) in form" :key="item.id">
+              <div class="row border p-2 my-2">
+                <div class="col-3">
+                  <label for="" class="form-label">Cours</label>
+                  <select
+                    class="form-select"
+                    @change="setCourse($event, index)"
+                    v-model="item.courseName"
+                  >
+                    <option
+                      v-for="course in this.getListCourses"
+                      :key="course.id"
+                      :value="course.courseName"
                     >
-                      <option
-                        v-for="course in this.getListCourses"
-                        :key="course.id"
-                        :value="course.courseName"
-                      >
-                        {{ course.courseName }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="col">
-                    <!-- <input type="text" class="form-control" v-model="item.courseName" /> -->
-                    <label for="" class="form-label">Professeur</label>
-                    <select
-                      class="form-select"
-                      @change="setTeacher($event)"
-                      v-model="item.teacherName"
+                      {{ course.courseName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <label for="" class="form-label">Professeur</label>
+                  <select
+                    class="form-select"
+                    @change="setTeacher($event)"
+                    v-model="item.teacherName"
+                  >
+                    <option
+                      v-for="teacher in teachers[index]"
+                      :key="teacher.id"
+                      :value="teacher.codeEmployee"
                     >
-                      <option
-                        v-for="teacher in teachers[index]"
-                        :key="teacher.id"
-                        :value="teacher.codeEmployee"
-                      >
-                        {{ teacher.firstName }} {{ teacher.lastName }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="col">
-                    <label for="" class="form-label">Heure Debut</label>
-                    <input type="time" class="form-control" v-model="item.timeStart" />
-                  </div>
-                  <div class="col">
-                    <label for="" class="form-label">Heure Fin</label>
-                    <input type="time" class="form-control" v-model="item.timeEnd" />
-                  </div>
-                  <div class="col-2">
+                      {{ teacher.firstName }} {{ teacher.lastName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <label for="" class="form-label">Heure Debut</label>
+                  <input type="time" class="form-control" v-model="item.timeStart" />
+                </div>
+                <div class="col-2">
+                  <label for="" class="form-label">Heure Fin</label>
+                  <input type="time" class="form-control" v-model="item.timeEnd" />
+                </div>
+                <div class="col-1 p-2">
+                  <div class="pt-4">
                     <button
                       class="btn btn-sm btn-danger"
                       @click.prevent="removeCourse(index)"
@@ -177,8 +165,8 @@ export default {
                     </button>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </ModalBody>
         <ModalFooter>

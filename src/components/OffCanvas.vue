@@ -1,6 +1,5 @@
 <script>
 import NavLink from "@/components/NavLink.vue";
-// import { mapGetters } from "vuex";
 export default {
   components: {
     NavLink,
@@ -19,6 +18,8 @@ export default {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userData");
+      localStorage.removeItem("academicYear");
+
       this.$router.push("/login");
     },
   },
