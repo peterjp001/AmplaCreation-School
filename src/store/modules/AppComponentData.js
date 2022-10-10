@@ -31,12 +31,14 @@ const state = {
         {
             title:"Employés / Fonctions",
             icon:"bi bi-people",
-            link:"/employee"
+            link:"/employee",
+            roleAccess:'ADMIN'
         },
         {
             title:"Utilisateurs",
             icon:"bi bi-person",
-            link:"/users"
+            link:"/users",
+            roleAccess:'ADMIN'
         },
         {
             title:"Statistiques",

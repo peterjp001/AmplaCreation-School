@@ -14,6 +14,19 @@ export default {
     },
   },
   methods: {
+    isUserHasrole(urole) {
+      let roles = this.getUserProfile.roles;
+      let stmt = false;
+      if (roles != null) {
+        roles.forEach((r) => {
+          urole.forEach((ur) => {
+            if (r.roleName == ur.roleName) stmt = true;
+            else stmt = false;
+          });
+        });
+      }
+      return stmt;
+    },
     logout() {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
@@ -63,7 +76,11 @@ export default {
           </li>
 
           <li class="my-2" v-for="item in this.getSData" :key="item.index">
-            <NavLink :linkData="item" />
+            <NavLink :linkData="item" v-if="item.roleAccess == 'ADMIN'" />
+          </li>
+
+          <li class="text-light">
+            {{ this.isUserHasrole([{ roleName: "ADD" }, { roleName: "USER" }]) }}
           </li>
 
           <!-- <li class="my-2">

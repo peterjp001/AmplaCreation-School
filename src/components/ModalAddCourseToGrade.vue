@@ -53,7 +53,7 @@ export default {
           NotyfMessage("yes", "success");
         }
       }
-      console.log({ grade: grade.gradeName, courses: form });
+      console.log({ grade: gData.gradeName, courses: form });
     };
 
     const setCourse = (event, idForm) => {
