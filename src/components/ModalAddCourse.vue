@@ -32,7 +32,9 @@ export default {
           window.$("#addCourse").modal("hide");
         })
         .catch((err) => {
+          console.log(err);
           if (err.response.status == 400) {
+            console.log(err);
             NotyfMessage(err.response.data.errorMessage, "error");
           }
         });

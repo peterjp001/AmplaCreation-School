@@ -76,12 +76,12 @@ export default {
           </li>
 
           <li class="my-2" v-for="item in this.getSData" :key="item.index">
-            <NavLink :linkData="item" v-if="item.roleAccess == 'ADMIN'" />
+            <NavLink :linkData="item" />
           </li>
-
+          <!-- 
           <li class="text-light">
             {{ this.isUserHasrole([{ roleName: "ADD" }, { roleName: "USER" }]) }}
-          </li>
+          </li> -->
 
           <!-- <li class="my-2">
             <a

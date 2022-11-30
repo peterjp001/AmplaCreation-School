@@ -3,9 +3,10 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import ModalAddCourseToGrade from "@/components/ModalAddCourseToGrade.vue";
+import ModalEditCourseGrade from "@/components/ModalEditCourseGrade.vue";
 export default {
   props: ["grade_id"],
-  components: { Navbar, Offcanvas, Titlebar, ModalAddCourseToGrade },
+  components: { Navbar, Offcanvas, Titlebar, ModalAddCourseToGrade , ModalEditCourseGrade},
   data() {
     return {};
   },
@@ -57,11 +58,16 @@ export default {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
+                    <tr v-for="item in this.getGrade.gradeRegistries" :key="item.id">
+                      <td>{{item.course.courseName}}</td>
+                      <td>{{item.employee.firstName}} {{item.employee.lastName}}</td>
+                      <td>{{item.timeStart}} - {{item.timeEnd}}</td>
+                      <td>
+                        <RouterLink
+                            :to="`/grade-course/${item.id}`"
+                            class="btn btn-sm btn-primary"
+                            ><i class="bi bi-pen"> </i> Modifier Cours </RouterLink>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

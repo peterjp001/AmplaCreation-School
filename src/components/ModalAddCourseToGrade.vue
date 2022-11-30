@@ -9,6 +9,8 @@ import SubmitButton from "./button/SubmitButton.vue";
 import { NotyfMessage } from "../utilities";
 import { reactive } from "vue";
 import { getTeachersForCourse } from "../httpRequest/courseRequest";
+import { addGradeRegistry } from "../httpRequest/gradeRegistryRequest";
+import { useStore } from 'vuex'
 export default {
   components: {
     ModalContainer,
@@ -21,25 +23,26 @@ export default {
   },
   props: ["gradeData"],
   setup(props) {
+    const store = useStore()
     const gData = reactive(props.gradeData);
 
     const form = reactive([
-      { courseName: null, teacherName: null, timeStart: null, timeEnd: null },
+      { courseName: null, codeEmployee: null, timeStart: null, timeEnd: null },
     ]);
 
-    const grade = reactive({ gradeName: null });
+    const grade = reactive({ gradeName: null  });
 
     let teachers = reactive([]);
 
     const addCourse = () => {
-      form.push({ courseName: null, teacherName: null, timeStart: null, timeEnd: null });
+      form.push({ courseName: null, codeEmployee: null, timeStart: null, timeEnd: null });
     };
 
     const removeCourse = (index) => {
       if (form.length > 1) form.splice(index, 1);
     };
 
-    const saveGrade = () => {
+    const saveGrade = () => { 
       for (let i = 0; i < form.length; i++) {
         let item = form[i];
         if (
@@ -53,7 +56,17 @@ export default {
           NotyfMessage("yes", "success");
         }
       }
-      console.log({ grade: gData.gradeName, courses: form });
+      console.log({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), courses:  form });
+      addGradeRegistry({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), listCourses: form })
+      .then((res)=>{
+        console.log(res);
+        store.dispatch("fetchGrade", gData.id);
+        window.$("#addCourse").modal("hide");
+      })
+      .catch((err) => {
+          console.log(err);
+        });
+       
     };
 
     const setCourse = (event, idForm) => {
@@ -68,7 +81,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      console.log(gData);
     };
 
     const setTeacher = (event) => {
@@ -136,7 +148,7 @@ export default {
                   <select
                     class="form-select"
                     @change="setTeacher($event)"
-                    v-model="item.teacherName"
+                    v-model="item.codeEmployee"
                   >
                     <option
                       v-for="teacher in teachers[index]"

@@ -27,7 +27,11 @@ export default {
         this.gradeName = null;
         NotyfMessage("Classe ajoutée", "success");
         this.$store.dispatch("fetchGrades");
-      });
+      }).catch((err) => { 
+          if (err.response.status == 400) { 
+            NotyfMessage(err.response.data.errorMessage, "error");
+          }
+        });
     },
     toggleeditGrade(func) {
       this.showInputAddGrade = false;
@@ -153,7 +157,7 @@ export default {
                           <RouterLink
                             :to="`grade/${item.id}`"
                             class="btn btn-sm btn-primary"
-                            ><i class="bi bi-info-circle"> </i> Info</RouterLink
+                            ><i class="bi bi-info-circle"> </i> Info Cours </RouterLink
                           >
                         </td>
                       </tr>

@@ -15,6 +15,7 @@ import StatistiquesView from '../views/StatistiquesView.vue'
 import PresenceView from '../views/PresenceView.vue'
 import InfoEmployeeView from '../views/InfoEmployeeView.vue'
 import AcademicYearView from '../views/AcademicYearView.vue'
+import EditCourseRegistryView from '../views/EditCourseRegistryView.vue'
 
 
 const router = createRouter({
@@ -71,6 +72,12 @@ const router = createRouter({
       path: '/grade/:grade_id',
       name: 'gradeInfo',
       component: GradeInfoView,
+      props:true
+    },
+    {
+      path: '/grade-course/:grade_registry_id',
+      name: 'gradeCourseInfo',
+      component: EditCourseRegistryView,
       props:true
     },
     {

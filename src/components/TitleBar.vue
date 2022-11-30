@@ -26,8 +26,7 @@ export default {
     if (localStorage.getItem("academicYear") == null) {
       this.getAcademicYears.forEach((ay) => {
         if (ay.status == "active") localStorage.setItem("academicYear", ay.id);
-      });
-      console.log("yes");
+      }); 
 
       this.$store.dispatch("reSetAcademicYear", localStorage.getItem("academicYear"));
     } else {
