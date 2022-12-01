@@ -26,8 +26,10 @@ export default {
     const store = useStore()
     const gData = reactive(props.gradeData);
 
+    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+
     const form = reactive([
-      { courseName: null, codeEmployee: null, timeStart: null, timeEnd: null },
+      { courseName: null, codeEmployee: null, day:null, timeStart: null, timeEnd: null },
     ]);
 
     const grade = reactive({ gradeName: null  });
@@ -43,29 +45,28 @@ export default {
     };
 
     const saveGrade = () => { 
-      for (let i = 0; i < form.length; i++) {
-        let item = form[i];
-        if (
-          item.courseName == null ||
-          item.teacherName == null ||
-          item.timeStart == null ||
-          item.timeEnd == null
-        ) {
-          NotyfMessage("no", "danger");
-        } else {
-          NotyfMessage("yes", "success");
-        }
-      }
-      console.log({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), courses:  form });
+     let errorCount = 0;
+      form.forEach(f=>{
+        if(f.codeEmployee== null || f.courseName == null || f.timeEnd == null || f.timeStart == null || f.day == null) errorCount++;
+      })
+
+      if(errorCount > 0){
+        NotyfMessage("Tous les champs sont requis!", "danger");
+      }else{
+        //  console.log({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), courses:  form });
       addGradeRegistry({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), listCourses: form })
       .then((res)=>{
         console.log(res);
         store.dispatch("fetchGrade", gData.id);
+        NotyfMessage("Cours ajouté", "success");
         window.$("#addCourse").modal("hide");
       })
       .catch((err) => {
+        NotyfMessage(err.response.data.errorMessage, "danger");
           console.log(err);
         });
+      }
+     
        
     };
 
@@ -74,6 +75,7 @@ export default {
         .then((res) => {
           if (res.data.length > 0) {
             teachers[idForm] = res.data;
+            form[idForm].codeEmployee=null
           } else {
             teachers[idForm] = [];
           }
@@ -96,6 +98,7 @@ export default {
       removeCourse,
       saveGrade,
       setTeacher,
+      days
     };
   },
   computed: {
@@ -115,7 +118,7 @@ export default {
       <i class="bi bi-plus-circle"></i> Ajouter Cours
     </ModalOpenButton>
     <ModalContainer modalAction="addCourse">
-      <ModalDialog class="modal-lg modal-dialog-scrollable">
+      <ModalDialog class="modal-xl modal-dialog-scrollable">
         <ModalHeader>
           <div class="d-flex sticky-top">
             <button class="btn btn-sm btn-primary" @click="addCourse">
@@ -127,7 +130,7 @@ export default {
           <div class="mb-3">
             <form v-for="(item, index) in form" :key="item.id">
               <div class="row border p-2 my-2">
-                <div class="col-3">
+                <div class="col-2">
                   <label for="" class="form-label">Cours</label>
                   <select
                     class="form-select"
@@ -143,7 +146,7 @@ export default {
                     </option>
                   </select>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                   <label for="" class="form-label">Professeur</label>
                   <select
                     class="form-select"
@@ -158,6 +161,12 @@ export default {
                       {{ teacher.firstName }} {{ teacher.lastName }}
                     </option>
                   </select>
+                </div>
+                <div class="col-2"> 
+                      <label for="" class="form-label">Jours</label>
+                      <select class="form-select  " v-model="item.day" id="">
+                          <option v-for="day in days" :key="day.index" :value="day" >{{day}} </option> 
+                      </select> 
                 </div>
                 <div class="col-2">
                   <label for="" class="form-label">Heure Debut</label>
@@ -176,7 +185,7 @@ export default {
                       <i class="bi bi-x-circle"></i>
                     </button>
                   </div>
-                </div>
+                </div> 
               </div>
             </form>
           </div>

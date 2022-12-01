@@ -157,7 +157,7 @@ export default {
                           <RouterLink
                             :to="`grade/${item.id}`"
                             class="btn btn-sm btn-primary"
-                            ><i class="bi bi-info-circle"> </i> Info Cours </RouterLink
+                            ><i class="bi bi-info-circle"> </i> Planifications Cours </RouterLink
                           >
                         </td>
                       </tr>

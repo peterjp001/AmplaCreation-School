@@ -3,10 +3,12 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import ModalAddCourseToGrade from "@/components/ModalAddCourseToGrade.vue";
-import ModalEditCourseGrade from "@/components/ModalEditCourseGrade.vue";
+import ModalConfirmDeleteGradeRegistry from "../components/ModalConfirmDeleteGradeRegistry.vue";
+
+// import ModalEditCourseGrade from "@/components/ModalEditCourseGrade.vue";
 export default {
   props: ["grade_id"],
-  components: { Navbar, Offcanvas, Titlebar, ModalAddCourseToGrade , ModalEditCourseGrade},
+  components: { Navbar, Offcanvas, Titlebar, ModalAddCourseToGrade, ModalConfirmDeleteGradeRegistry },
   data() {
     return {};
   },
@@ -15,6 +17,7 @@ export default {
       return this.$store.getters.getGrade;
     },
   },
+ 
   mounted() {
     this.$store.dispatch("fetchGrade", this.grade_id);
   },
@@ -29,7 +32,7 @@ export default {
 
     <main class="mt-5">
       <div class="container-fluid">
-        <Titlebar :title="`Classe: ${this.getGrade.gradeName}`" />
+        <Titlebar :title="`Planification Classe: ${this.getGrade.gradeName}`" />
 
         <div class="row row-cols-12 mt-4">
           <div class="col">
@@ -53,6 +56,7 @@ export default {
                     <tr>
                       <th>Cours</th>
                       <th>Professeur</th>
+                      <th>Jour</th>
                       <th>Horraires</th>
                       <th>Action</th>
                     </tr>
@@ -61,12 +65,14 @@ export default {
                     <tr v-for="item in this.getGrade.gradeRegistries" :key="item.id">
                       <td>{{item.course.courseName}}</td>
                       <td>{{item.employee.firstName}} {{item.employee.lastName}}</td>
+                      <td>{{item.day}}</td>
                       <td>{{item.timeStart}} - {{item.timeEnd}}</td>
                       <td>
-                        <RouterLink
-                            :to="`/grade-course/${item.id}`"
-                            class="btn btn-sm btn-primary"
-                            ><i class="bi bi-pen"> </i> Modifier Cours </RouterLink>
+                        <RouterLink :to="`/grade-course/${item.id}`" class="btn btn-sm btn-primary me-1" >
+                            <i class="bi bi-pen"> </i> 
+                            Modifier Cours 
+                        </RouterLink>
+                        <ModalConfirmDeleteGradeRegistry :gradeRegistryData="item" /> 
                       </td>
                     </tr>
                   </tbody>
