@@ -1,4 +1,6 @@
 <script>
+
+
 export default {
   props: ["title"],
   data() {
@@ -16,6 +18,7 @@ export default {
     setAY(event) {
       localStorage.setItem("academicYear", event.target.value);
       this.$store.dispatch("reSetAcademicYear", localStorage.getItem("academicYear"));
+      this.$router.go()
     },
     goBack() {
       this.$router.go(-1);
@@ -34,7 +37,7 @@ export default {
       this.$store.dispatch("reSetAcademicYear", localStorage.getItem("academicYear"));
     } else {
       this.$store.dispatch("reSetAcademicYear", localStorage.getItem("academicYear"));
-    }
+    } 
   },
 };
 </script>

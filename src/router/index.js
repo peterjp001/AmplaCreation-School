@@ -8,6 +8,8 @@ import GradeView from '../views/GradeView.vue'
 import GradeInfoView from '../views/GradeInfoView.vue'
 import NotesView from '../views/NotesView.vue'
 import StudentView from '../views/StudentView.vue'
+import StudentInfoView from '../views/StudentInfoView.vue'
+import NewStudentView from '../views/NewStudentView.vue'
 import BlankView from '../views/BlankView.vue'
 import InfoUserView from '../views/InfoUserView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
@@ -84,6 +86,17 @@ const router = createRouter({
       path: '/student',
       name: 'student',
       component: StudentView
+    },
+    {
+      path: '/student/:register_id',
+      name: 'studentInfo',
+      component: StudentInfoView,
+      props:true
+    },
+    {
+      path: '/student/new',
+      name: 'newstudent',
+      component: NewStudentView
     },
     {
       path: '/notes',

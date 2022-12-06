@@ -28,10 +28,7 @@ export default {
       return stmt;
     },
     logout() {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("userData");
-      localStorage.removeItem("academicYear");
+      localStorage.clear(); 
 
       this.$router.push("/login");
     },

@@ -37,7 +37,7 @@ export default {
 
         <nav class="mt-3">
           <ul class="nav nav-tabs">
-            <li class="nav-item">
+            <li class="nav-item border">
               <a
                 class="nav-link x"
                 :class="this.navEmp ? 'active' : ''"
@@ -47,7 +47,7 @@ export default {
                 >Employées</a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item border">
               <a
                 class="nav-link x"
                 :class="this.navFunc ? 'active' : ''"

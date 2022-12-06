@@ -81,15 +81,19 @@ const state = {
             link:"#",
             quantity: 3
         }
-    ]
+    ],
+    spinner:false
 };
 
 const getters = {
     getSideBarData: state => {
-        return  state.sideBarData
+        return  state.sideBarData;
     },
     getCardData: state => {
-        return  state.cardData
+        return  state.cardData;
+    },
+    getSpinnerState: state =>{
+        return state.spinner;
     }
 };
 
@@ -97,10 +101,15 @@ const actions = {
     //   setSideBarData ({commit}, sideBarData){
     //     commit('SET_SIDEBAR_DATA', sideBarData)
     // }
+
+    spinnerState({commit}, loadingButton){
+        commit('SET_LOADING_BUTTON', loadingButton)
+    },
 };
 
 const mutations = {
     //  SET_SIDEBAR_DATA: (state, sideBarData) => state.sideBarData = sideBarData,
+     SET_LOADING_BUTTON: (state, spinner) => state.spinner = spinner,
 };
 
 export default {

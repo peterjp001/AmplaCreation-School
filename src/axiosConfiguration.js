@@ -29,9 +29,7 @@ axios.interceptors.response.use((response) => {
             localStorage.setItem("accessToken", res.data.access_token);
             localStorage.setItem("refreshToken", res.data.refresh_token);
         }).catch(()=>{
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("userData"); 
+            localStorage.clear();
             window.location.href = "/login";
         })
      
