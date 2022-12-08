@@ -23,17 +23,15 @@ export default {
   },
   props: ["gradeData"],
   setup(props) {
-    const store = useStore()
-    const gData = reactive(props.gradeData);
+    const store = useStore() 
 
     const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
 
-    const form = reactive([
+    let form = reactive([
       { courseName: null, codeEmployee: null, day:null, timeStart: null, timeEnd: null },
     ]);
 
-    const grade = reactive({ gradeName: null  });
-
+   
     let teachers = reactive([]);
 
     const addCourse = () => {
@@ -43,9 +41,9 @@ export default {
     const removeCourse = (index) => {
       if (form.length > 1) form.splice(index, 1);
     };
-
-    const saveGrade = () => { 
-     let errorCount = 0;
+    
+    const saveGrade = () => {   
+      let errorCount = 0;
       form.forEach(f=>{
         if(f.codeEmployee== null || f.courseName == null || f.timeEnd == null || f.timeStart == null || f.day == null) errorCount++;
       })
@@ -54,16 +52,18 @@ export default {
         NotyfMessage("Tous les champs sont requis!", "danger");
       }else{
         //  console.log({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), courses:  form });
-      addGradeRegistry({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), listCourses: form })
-      .then((res)=>{
-        console.log(res);
-        store.dispatch("fetchGrade", gData.id);
+      addGradeRegistry({ gradeName: props.gradeData.gradeName, academicYearId: localStorage.getItem('academicYear'), listCourses: form })
+      .then(()=>{ 
+        store.dispatch("fetchGradeRegistryByIdGrade", {gradeId:props.gradeData.id,academicYearId:localStorage.getItem('academicYear')});
+        form = reactive([
+          { courseName: null, codeEmployee: null, day:null, timeStart: null, timeEnd: null },
+        ]);
         NotyfMessage("Cours ajouté", "success");
         window.$("#addCourse").modal("hide");
       })
       .catch((err) => {
+        console.log(err);
         NotyfMessage(err.response.data.errorMessage, "danger");
-          console.log(err);
         });
       }
      
@@ -90,8 +90,7 @@ export default {
     };
 
     return {
-      form,
-      grade,
+      form, 
       teachers,
       setCourse,
       addCourse,
@@ -127,7 +126,11 @@ export default {
           </div>
         </ModalHeader>
         <ModalBody>
-          <div class="mb-3">
+        
+          <div class="mb-3" v-if="this.gradeData"> 
+
+          <!-- <input type="hidden" v-model="gradeD.id" value="1"> -->
+          <!-- <input type="hidden" v-model="gradeD.gradeName" :value="this.gradeData.gradeName"> -->
             <form v-for="(item, index) in form" :key="item.id">
               <div class="row border p-2 my-2">
                 <div class="col-2">

@@ -2,9 +2,9 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-import { addAcademicYear, updateAcademicYear } from "../httpRequest/academicYearRequest";
-import { NotyfMessage } from "../utilities";
-import ModalCloseAY from "../components/ModalCloseAY.vue";
+import { addAcademicYear, updateAcademicYear } from "../../httpRequest/academicYearRequest";
+import { NotyfMessage } from "../../utilities";
+import ModalCloseAY from "../../components/ModalCloseAY.vue";
 
 export default {
   components: { Navbar, Offcanvas, Titlebar, ModalCloseAY },

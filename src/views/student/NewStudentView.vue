@@ -2,8 +2,8 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-import { newStudent } from "../httpRequest/studentRequest"; 
-import { NotyfMessage } from "../utilities";
+import { newStudent } from "../../httpRequest/studentRequest"; 
+import { NotyfMessage } from "../../utilities";
 
 
 export default {
@@ -95,7 +95,9 @@ export default {
         <div class="  mt-3 p-2">
           <div class="row row-cols-12  ">
             <div class="col-4">
-              <RouterLink to="/student" class="btn btn-sm btn-primary"> <i class="bi bi-list"></i> Liste élèves</RouterLink>
+              <RouterLink to="/student" class="btn btn-sm btn-primary me-2"> <i class="bi bi-list"></i> Liste élèves</RouterLink>
+              <RouterLink to="/re-registration" class="btn btn-sm btn-primary"> <i class="bi bi-person-plus"></i> Réinscription</RouterLink>
+
             </div>
           </div>
         </div> 

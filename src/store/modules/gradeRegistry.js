@@ -1,14 +1,14 @@
 // import axios from 'axios'
-import {  gradeRegistryById } from "../../httpRequest/gradeRegistryRequest";
+import {  gradeRegistryById,getGradeRegistryByGradeIdAndAyId } from "../../httpRequest/gradeRegistryRequest";
 
 
 const state = { 
-    // listGrades:[],
+    listGradeRegistry:[],
     gradeRegistry:null
 };
 
 const getters = {
-    // getListGrades:   state => state.listGrades, 
+    getListGradeRegistry:   state => state.listGradeRegistry, 
     getGradeRegistry:   state => state.gradeRegistry, 
 };
 
@@ -19,11 +19,14 @@ const actions = {
     //     commit('SET_LIST_GRADES', response.data)
     //     });
     // },
-    // async fetchGradeRegistryByIdGrade ({commit},id){
-    //     gradeRegistryByIdGrade(id).then(response => { 
-    //     commit('SET_GRADE_REGISTRY_BY_GRADE_ID', response.data)
-    //     });
-    // },
+    async fetchGradeRegistryByIdGrade ({commit},{gradeId,academicYearId}){
+        getGradeRegistryByGradeIdAndAyId(gradeId,academicYearId).then(response => { 
+            if(response.data){
+
+                commit('SET_GRADE_REGISTRY', response.data)
+            }
+        });
+    },
     async fetchCourseRegistryById ({commit},id){
         gradeRegistryById(id).then(response => { 
         commit('SET_GRADE_REGISTRY_BY_ID', response.data)
@@ -39,6 +42,7 @@ const mutations = {
     // SET_LIST_GRADES: (state, listGrades) => state.listGrades = listGrades, 
     // SET_GRADE_REGISTRY_BY_GRADE_ID: (state, gradeRegistry) => state.gradeRegistry = gradeRegistry, 
     SET_GRADE_REGISTRY_BY_ID: (state, gradeRegistry) => state.gradeRegistry = gradeRegistry, 
+    SET_GRADE_REGISTRY: (state, listGradeRegistry) => state.listGradeRegistry = listGradeRegistry, 
 };
 
 export default {

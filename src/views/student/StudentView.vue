@@ -12,11 +12,11 @@ export default {
   },
   computed: {
     getStudents() { 
-      return this.$store.getters.getListStudents;
+      return this.$store.getters.getStudents;
     },
   },
   mounted() {
-    this.$store.dispatch('fetchStudentsByAcademicYear', localStorage.getItem("academicYear"))
+    this.$store.dispatch('fetchStudents')
 
   },
 };
@@ -32,9 +32,10 @@ export default {
         <Titlebar title="Élèves" />
 
         <div class="row row-cols-12 mt-4">
-          <div class="col">
+          <div class="col ">
             <!-- <ModalAddStudentVue /> -->
-            <RouterLink to="student/new" class="btn btn-sm btn-primary"> <i class="bi bi-person-plus"></i> Nouveau Eleve</RouterLink>
+            <RouterLink to="student/new" class="btn btn-sm btn-primary me-2"> <i class="bi bi-person-plus"></i> Inscrption</RouterLink>
+            <RouterLink to="re-registration" class="btn btn-sm btn-primary"> <i class="bi bi-person-plus"></i> Réinscription</RouterLink>
           </div>
         </div>
 
@@ -62,14 +63,14 @@ export default {
                       </thead>
                       <tbody>
                         <tr v-for="item in this.getStudents" :key="item.id">
-                          <td>{{item.student.firstName}}</td>
-                          <td>{{item.student.lastName}}</td>
-                          <td>{{item.student.sexe}}</td>
+                          <td>{{item.firstName}}</td>
+                          <td>{{item.lastName}}</td>
+                          <td>{{item.sexe}}</td>
                           <td>{{item.gradeName}}</td>
-                          <td>{{item.student.address}}</td>
+                          <td>{{item.address}}</td>
                           <td>
                             <RouterLink
-                            :to="`student/${item.registerId}`"
+                            :to="`student/${item.id}`"
                             class="btn btn-sm btn-primary"
                             ><i class="bi bi-info-circle"> </i> Info Eleve </RouterLink>
                           </td>

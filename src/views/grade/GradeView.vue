@@ -2,8 +2,8 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-import { addGrade, updateGrade } from "../httpRequest/GradeRequest";
-import { NotyfMessage } from "../utilities";
+import { addGrade, updateGrade } from "../../httpRequest/GradeRequest";
+import { NotyfMessage } from "../../utilities";
 
 export default {
   components: { Navbar, Offcanvas, Titlebar },

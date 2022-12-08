@@ -27,9 +27,9 @@ export default {
         deleteGradeRegistry(this.gradeRegistryData.id).then((res) => {
         if (res.status == 200) {
           NotyfMessage(`Plannification Supprimé`, "success");
-         
-          this.$store.dispatch("fetchGrade", this.gradeRegistryData.gradeId);
-          window.$("#deleteGradeRegistry").modal("hide");
+          
+          this.$store.dispatch("fetchGradeRegistryByIdGrade", {gradeId:this.gradeRegistryData.grade.id,academicYearId:localStorage.getItem('academicYear')});
+          window.$(`#deleteGradeRegistry${this.gradeRegistryData.id}`).modal("hide");
           
         }
       }); 
@@ -43,14 +43,15 @@ export default {
 <template>
   <ModalOpenButton
     class="btn btn-sm btn-danger" 
-    modalAction="deleteGradeRegistry"
+    :modalAction="`deleteGradeRegistry${this.gradeRegistryData.id}`"
   >
     <i class="bi bi-trash"></i> Supprimer
   </ModalOpenButton>
-  <ModalContainer modalAction="deleteGradeRegistry">
+  <ModalContainer :modalAction="`deleteGradeRegistry${this.gradeRegistryData.id}`">
     <ModalDialog class="modal-dialog-centered">
       <ModalBody>
         <div class="p-3 d-flex justify-content-center">
+        {{this.gradeRegistryData.grade.id}}
           <span class="fs-5 fw-bold"
             ><i class="bi bi-exclamation-triangle"></i> Voulez-vous supprimer la planification "{{
               this.gradeRegistryData.id

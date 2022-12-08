@@ -5,13 +5,13 @@ import Titlebar from "@/components/TitleBar.vue";
 import SubmitButton from "@/components/button/SubmitButton.vue";
 // import ModalDeleteUser from "@/components/ModalConfirmDeleteUser.vue";
 import { mapGetters } from "vuex";
-import { NotyfMessage } from "../utilities";
+import { NotyfMessage } from "../../utilities";
 import RequestMessage from "@/components/RequestMessage.vue";
 import {
   updateUser,
   addRoleToUser,
   removeRoleToUser,
-} from "../httpRequest/userRequest.js";
+} from "../../httpRequest/userRequest.js";
 
 export default {
   components: {

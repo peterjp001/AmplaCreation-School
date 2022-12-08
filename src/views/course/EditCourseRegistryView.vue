@@ -2,10 +2,10 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-import { getTeachersForCourse } from "../httpRequest/courseRequest";
-import { updateGradeRegistryById } from "../httpRequest/gradeRegistryRequest";
-import SubmitButton from "../components/button/SubmitButton.vue";
-import { NotyfMessage } from "../utilities";
+import { getTeachersForCourse } from "../../httpRequest/courseRequest";
+import { updateGradeRegistryById } from "../../httpRequest/gradeRegistryRequest";
+import SubmitButton from "../../components/button/SubmitButton.vue";
+import { NotyfMessage } from "../../utilities";
 export default {
   props: ["grade_registry_id"],
   components: { Navbar, Offcanvas, Titlebar, SubmitButton },
@@ -44,6 +44,7 @@ export default {
 
     updateCourseRegistry() {
       updateGradeRegistryById(this.getGradeRegistryData.id, {
+        academicYearId:localStorage.getItem("academicYear"),
         courseName: this.courseName,
         codeEmployee: this.codeEmployee,
         day: this.day,
