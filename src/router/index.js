@@ -18,10 +18,10 @@ import EditCourseRegistryView from '../views/course/EditCourseRegistryView.vue'
 import GradeView from '../views/grade/GradeView.vue'
 import GradeInfoView from '../views/grade/GradeInfoView.vue'
 
+import NotesView from '../views/note/NotesView.vue'
 
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import NotesView from '../views/NotesView.vue'
 import BlankView from '../views/BlankView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import StatistiquesView from '../views/StatistiquesView.vue'

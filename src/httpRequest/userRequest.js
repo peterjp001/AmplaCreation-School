@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
  
-const authUser = await function(credentials){return  axios.post('login',qs.stringify(credentials),{ headers: {'Content-Type': 'application/x-www-form-urlencoded'}});}
+const  authUser = await function(credentials){return  axios.post('login',qs.stringify(credentials),{ headers: {'Content-Type': 'application/x-www-form-urlencoded'}});}
 const  allUsers = await function() { return  axios.get(`users`)}
 const  getUser = await function(id) { return  axios.get(`user/${id}`)}
 const  getProfile = await function() { return  axios.get(`profile`)}

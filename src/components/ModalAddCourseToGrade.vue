@@ -10,7 +10,7 @@ import { NotyfMessage } from "../utilities";
 import { reactive } from "vue";
 import { getTeachersForCourse } from "../httpRequest/courseRequest";
 import { addGradeRegistry } from "../httpRequest/gradeRegistryRequest";
-import { useStore } from 'vuex'
+import { useStore } from "vuex";
 export default {
   components: {
     ModalContainer,
@@ -23,51 +23,79 @@ export default {
   },
   props: ["gradeData"],
   setup(props) {
-    const store = useStore() 
+    const store = useStore();
 
-    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+    const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
     let form = reactive([
-      { courseName: null, codeEmployee: null, day:null, timeStart: null, timeEnd: null },
+      {
+        courseName: null,
+        codeEmployee: null,
+        day: null,
+        timeStart: null,
+        timeEnd: null,
+      },
     ]);
 
-   
     let teachers = reactive([]);
 
     const addCourse = () => {
-      form.push({ courseName: null, codeEmployee: null, timeStart: null, timeEnd: null });
+      form.push({
+        courseName: null,
+        codeEmployee: null,
+        timeStart: null,
+        timeEnd: null,
+      });
     };
 
     const removeCourse = (index) => {
       if (form.length > 1) form.splice(index, 1);
     };
-    
-    const saveGrade = () => {   
-      let errorCount = 0;
-      form.forEach(f=>{
-        if(f.codeEmployee== null || f.courseName == null || f.timeEnd == null || f.timeStart == null || f.day == null) errorCount++;
-      })
 
-      if(errorCount > 0){
+    const saveGrade = () => {
+      let errorCount = 0;
+      form.forEach((f) => {
+        if (
+          f.codeEmployee == null ||
+          f.courseName == null ||
+          f.timeEnd == null ||
+          f.timeStart == null ||
+          f.day == null
+        )
+          errorCount++;
+      });
+
+      if (errorCount > 0) {
         NotyfMessage("Tous les champs sont requis!", "danger");
-      }else{
+      } else {
         //  console.log({ gradeName: gData.gradeName, academicYearId: localStorage.getItem('academicYear'), courses:  form });
-      addGradeRegistry({ gradeName: props.gradeData.gradeName, academicYearId: localStorage.getItem('academicYear'), listCourses: form })
-      .then(()=>{ 
-        store.dispatch("fetchGradeRegistryByIdGrade", {gradeId:props.gradeData.id,academicYearId:localStorage.getItem('academicYear')});
-        form = reactive([
-          { courseName: null, codeEmployee: null, day:null, timeStart: null, timeEnd: null },
-        ]);
-        NotyfMessage("Cours ajouté", "success");
-        window.$("#addCourse").modal("hide");
-      })
-      .catch((err) => {
-        console.log(err);
-        NotyfMessage(err.response.data.errorMessage, "danger");
-        });
+        addGradeRegistry({
+          gradeName: props.gradeData.gradeName,
+          academicYearId: localStorage.getItem("academicYear"),
+          listCourses: form,
+        })
+          .then(() => {
+            store.dispatch("fetchGradeRegistryByIdGrade", {
+              gradeId: props.gradeData.id,
+              academicYearId: localStorage.getItem("academicYear"),
+            });
+            form = reactive([
+              {
+                courseName: null,
+                codeEmployee: null,
+                day: null,
+                timeStart: null,
+                timeEnd: null,
+              },
+            ]);
+            NotyfMessage("Cours ajouté", "success");
+            window.$("#addCourse").modal("hide");
+          })
+          .catch((err) => {
+            console.log(err);
+            NotyfMessage(err.response.data.errorMessage, "danger");
+          });
       }
-     
-       
     };
 
     const setCourse = (event, idForm) => {
@@ -75,7 +103,7 @@ export default {
         .then((res) => {
           if (res.data.length > 0) {
             teachers[idForm] = res.data;
-            form[idForm].codeEmployee=null
+            form[idForm].codeEmployee = null;
           } else {
             teachers[idForm] = [];
           }
@@ -90,14 +118,14 @@ export default {
     };
 
     return {
-      form, 
+      form,
       teachers,
       setCourse,
       addCourse,
       removeCourse,
       saveGrade,
       setTeacher,
-      days
+      days,
     };
   },
   computed: {
@@ -113,7 +141,10 @@ export default {
 
 <template>
   <div>
-    <ModalOpenButton class="btn btn-sm btn-primary mx-1" modalAction="addCourse">
+    <ModalOpenButton
+      class="btn btn-sm btn-primary mx-1"
+      modalAction="addCourse"
+    >
       <i class="bi bi-plus-circle"></i> Ajouter Cours
     </ModalOpenButton>
     <ModalContainer modalAction="addCourse">
@@ -126,11 +157,9 @@ export default {
           </div>
         </ModalHeader>
         <ModalBody>
-        
-          <div class="mb-3" v-if="this.gradeData"> 
-
-          <!-- <input type="hidden" v-model="gradeD.id" value="1"> -->
-          <!-- <input type="hidden" v-model="gradeD.gradeName" :value="this.gradeData.gradeName"> -->
+          <div class="mb-3" v-if="this.gradeData">
+            <!-- <input type="hidden" v-model="gradeD.id" value="1"> -->
+            <!-- <input type="hidden" v-model="gradeD.gradeName" :value="this.gradeData.gradeName"> -->
             <form v-for="(item, index) in form" :key="item.id">
               <div class="row border p-2 my-2">
                 <div class="col-2">
@@ -165,19 +194,29 @@ export default {
                     </option>
                   </select>
                 </div>
-                <div class="col-2"> 
-                      <label for="" class="form-label">Jours</label>
-                      <select class="form-select  " v-model="item.day" id="">
-                          <option v-for="day in days" :key="day.index" :value="day" >{{day}} </option> 
-                      </select> 
+                <div class="col-2">
+                  <label for="" class="form-label">Jours</label>
+                  <select class="form-select" v-model="item.day" id="">
+                    <option v-for="day in days" :key="day.index" :value="day">
+                      {{ day }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col-2">
                   <label for="" class="form-label">Heure Debut</label>
-                  <input type="time" class="form-control" v-model="item.timeStart" />
+                  <input
+                    type="time"
+                    class="form-control"
+                    v-model="item.timeStart"
+                  />
                 </div>
                 <div class="col-2">
                   <label for="" class="form-label">Heure Fin</label>
-                  <input type="time" class="form-control" v-model="item.timeEnd" />
+                  <input
+                    type="time"
+                    class="form-control"
+                    v-model="item.timeEnd"
+                  />
                 </div>
                 <div class="col-1 p-2">
                   <div class="pt-4">
@@ -188,13 +227,17 @@ export default {
                       <i class="bi bi-x-circle"></i>
                     </button>
                   </div>
-                </div> 
+                </div>
               </div>
             </form>
           </div>
         </ModalBody>
         <ModalFooter>
-          <SubmitButton name="Enregistrer" class="btn btn-primary" @click="saveGrade" />
+          <SubmitButton
+            name="Enregistrer"
+            class="btn btn-primary"
+            @click="saveGrade"
+          />
         </ModalFooter>
       </ModalDialog>
     </ModalContainer>
