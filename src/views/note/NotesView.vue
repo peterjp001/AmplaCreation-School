@@ -3,9 +3,11 @@ import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
 import { getGradeRegistryByGradeIdAndAyId } from "../../httpRequest/gradeRegistryRequest";
+import { NotyfMessage } from "../../utilities";
+import ModalCreateUploadNotes from "../../components/ModalCreateUploadNotes.vue";
 
 export default {
-  components: { Navbar, Offcanvas, Titlebar },
+  components: { Navbar, Offcanvas, Titlebar, ModalCreateUploadNotes },
   data() {
     return {
       gradeIdSelected: null,
@@ -23,8 +25,8 @@ export default {
   },
   methods: {
     setListCourse(gradeId) {
-      this.gradeIdSelected = gradeId;
       if (gradeId) {
+        this.gradeIdSelected = gradeId;
         getGradeRegistryByGradeIdAndAyId(
           gradeId,
           localStorage.getItem("academicYear")
@@ -44,6 +46,8 @@ export default {
           gradeId: this.gradeIdSelected,
           courseId: this.courseIdSelected,
         });
+      } else {
+        NotyfMessage("Veuillez remplir les options", "danger");
       }
     },
   },
@@ -56,19 +60,26 @@ export default {
 <template>
   <div>
     <Navbar />
-
     <Offcanvas />
-
     <main class="mt-5">
       <div class="container-fluid">
         <Titlebar title="Notes" />
         <div class="mt-3">
           <div class="d-flex">
             <div class="pb-2 me-4">
-              <button class="btn btn-sm btn-primary">Create Note</button>
+              <ModalCreateUploadNotes />
             </div>
+
             <div class="pb-2">
-              <button class="btn btn-sm btn-primary">Upload Notes</button>
+              <a
+                href="../../../public/model_telechargement_note.xlsx"
+                target="_blank"
+                download="model_telechargement_notes"
+                class="btn btn-sm btn-success"
+              >
+                <i class="bi bi-download"></i>
+                Modèle Fichier téléchargement Notes
+              </a>
             </div>
           </div>
         </div>
@@ -131,11 +142,11 @@ export default {
           </div>
         </div>
 
-        <div class="row row-cols-12 mt-3">
+        <div class="row row-cols-12 mt-3" v-if="this.getListNotes.length > 0">
           <div class="col pb-2">
             <div class="card shadow">
               <div class="card-header acc-bg d-flex justify-content-between">
-                <span>Liste des élèves</span>
+                <span>Liste des Notes</span>
                 <button class="btn btn-sm btn-light">
                   <i class="bi bi-save"></i> Généré Rapport
                 </button>
