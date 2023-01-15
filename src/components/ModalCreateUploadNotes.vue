@@ -4,6 +4,7 @@ import ModalOpenButton from "@/components/modal/ModalOpenButton.vue";
 import ModalHeader from "@/components/modal/ModalHeader.vue";
 import ModalBody from "@/components/modal/ModalBody.vue";
 import ModalDialog from "@/components/modal/ModalDialog.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -15,9 +16,30 @@ export default {
   },
 
   data() {
-    return { courseName: "" };
+    return { file: null };
   },
-  methods: {},
+  methods: {
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+    uploadNotes() {
+      let formData = new FormData();
+      formData.append("academicYearId", localStorage.getItem("academicYear"));
+      formData.append("attachment", this.file);
+      axios
+        .post("/send/notes", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 <template>
@@ -94,22 +116,26 @@ export default {
                 aria-labelledby="nav-profile-tab"
                 tabindex="0"
               >
-                <div class="input-group">
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="inputGroupFile04"
-                    aria-describedby="inputGroupFileAddon04"
-                    aria-label="Upload"
-                  />
-                  <button
-                    class="btn btn-primary"
-                    type="button"
-                    id="inputGroupFileAddon04"
-                  >
-                    Télécharger
-                  </button>
-                </div>
+                <form v-on:submit.prevent="uploadNotes">
+                  <div class="input-group">
+                    <input
+                      type="file"
+                      id="file"
+                      ref="file"
+                      class="form-control"
+                      aria-describedby="inputGroupFileAddon04"
+                      aria-label="Upload"
+                      @change="handleFileUpload($event)"
+                    />
+                    <button
+                      class="btn btn-primary"
+                      type="submit"
+                      id="inputGroupFileAddon04"
+                    >
+                      Télécharger
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
