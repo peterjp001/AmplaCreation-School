@@ -1,5 +1,6 @@
 // import axios from 'axios'
 import { notesByAyAndGradeAndCourseAndPeriod } from "../../httpRequest/noteRequest";
+import {NotyfMessage} from '../../utilities';
 
 
 const state = {
@@ -14,7 +15,10 @@ const actions = {
 
     async fetchNotesByAyAndGradeAndCourseAndPeriod ({commit},{ayId,gradeId,courseId}){
         notesByAyAndGradeAndCourseAndPeriod(ayId,gradeId,courseId).then(response => { 
-        commit('SET_LIST_NOTES', response.data)
+            if(response.data.length > 0)
+                commit('SET_LIST_NOTES', response.data)
+            else
+                NotyfMessage("Aucun Resultat","danger")
         });
     },
 

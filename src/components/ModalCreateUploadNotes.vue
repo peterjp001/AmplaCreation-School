@@ -16,7 +16,7 @@ export default {
   },
 
   data() {
-    return { file: null };
+    return { file: null, listNotesUploaded: [] };
   },
   methods: {
     handleFileUpload() {
@@ -33,6 +33,7 @@ export default {
           },
         })
         .then((res) => {
+          this.listNotesUploaded = res.data;
           console.log(res);
         })
         .catch((err) => {
@@ -136,6 +137,55 @@ export default {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="row row-cols-12 mt-3"
+            v-if="this.listNotesUploaded.length > 0"
+          >
+            <div class="col pb-2">
+              <div class="card shadow">
+                <div class="card-header acc-bg d-flex justify-content-between">
+                  <span>Liste des Notes enregistrées</span>
+                  <button class="btn btn-sm btn-light">
+                    <i class="bi bi-save"></i> Généré Rapport
+                  </button>
+                </div>
+                <div class="card-body">
+                  <table
+                    id="example"
+                    class="table table-striped nowrap"
+                    style="width: 100%"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Eleve</th>
+                        <th>Professeur</th>
+                        <th>Classe</th>
+                        <th>Cours</th>
+                        <th>Periode</th>
+                        <th>Point</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="item in this.listNotesUploaded" :key="item.id">
+                        <td>
+                          {{ item.studentFirstName }} {{ item.studentLastName }}
+                        </td>
+                        <td>
+                          {{ item.employeeFirstName }}
+                          {{ item.employeeLastName }}
+                        </td>
+                        <td>{{ item.gradeName }}</td>
+                        <td>{{ item.courseName }}</td>
+                        <td>1</td>
+                        <td>{{ parseFloat(item.point) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
