@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import { allAcademicYear } from "../../httpRequest/academicYearRequest";
+import { allAcademicYear,getAcademicYear } from "../../httpRequest/academicYearRequest";
 
 
 const state = {
@@ -20,7 +20,14 @@ const actions = {
         });
     },
 
-    async reSetAcademicYear ({commit},ay){ 
+    async fetchAcademicYear ({commit},id){
+        console.log(id);
+        getAcademicYear(id).then(response => { 
+        commit('SET_ACADEMIC_YEAR', response.data)
+        });
+    },
+
+     reSetAcademicYear ({commit},ay){ 
         commit('SET_ACADEMIC_YEAR', ay) 
     },
 

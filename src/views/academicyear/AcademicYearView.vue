@@ -2,7 +2,10 @@
 import Navbar from "@/components/NavBar.vue";
 import Offcanvas from "@/components/OffCanvas.vue";
 import Titlebar from "@/components/TitleBar.vue";
-import { addAcademicYear, updateAcademicYear } from "../../httpRequest/academicYearRequest";
+import {
+  addAcademicYear,
+  updateAcademicYear,
+} from "../../httpRequest/academicYearRequest";
 import { NotyfMessage } from "../../utilities";
 import ModalCloseAY from "../../components/ModalCloseAY.vue";
 
@@ -13,6 +16,7 @@ export default {
       showInputAY: false,
       dateStart: null,
       dateEnd: null,
+      nbrPeriod: null,
       idAY: null,
       showInputeditAY: false,
     };
@@ -28,7 +32,8 @@ export default {
         this.dateStart == null ||
         this.dateEnd == null ||
         this.dateStart == "" ||
-        this.dateEnd == ""
+        this.dateEnd == "" ||
+        this.nbrPeriod == null
       ) {
         NotyfMessage("Précisez la date début et la date fin!", "danger");
       } else {
@@ -36,6 +41,7 @@ export default {
           dateStart: this.dateStart,
           dateEnd: this.dateEnd,
           status: "active",
+          nbrPeriod: this.nbrPeriod,
         })
           .then((res) => {
             console.log(res);
@@ -130,6 +136,10 @@ export default {
                 <input type="date" class="form-control" v-model="dateEnd" />
               </div>
               <div>
+                <label for="">Nombre de Période</label>
+                <input type="number" class="form-control" v-model="nbrPeriod" />
+              </div>
+              <div>
                 <label for="">Action</label>
                 <div>
                   <button class="btn btn-primary" type="button" @click="saveAY">
@@ -160,7 +170,11 @@ export default {
                   <button class="btn btn-primary" type="button" @click="editAY">
                     Enregistrer
                   </button>
-                  <button class="btn btn-secondary" type="button" @click="cancelAY">
+                  <button
+                    class="btn btn-secondary"
+                    type="button"
+                    @click="cancelAY"
+                  >
                     cancel
                   </button>
                 </div>
@@ -184,6 +198,7 @@ export default {
                         <th>ID</th>
                         <th>Date Début</th>
                         <th>Date Fin</th>
+                        <th>Nbr Période</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -193,21 +208,24 @@ export default {
                         <td>{{ item.id }}</td>
                         <td>{{ item.dateStart }}</td>
                         <td>{{ item.dateEnd }}</td>
+                        <td>{{ item.periods.length }}</td>
                         <td>
                           <span
                             class="badge"
-                            :class="item.status == 'active' ? 'bg-success' : 'bg-warning'"
+                            :class="
+                              item.status == 'active'
+                                ? 'bg-success'
+                                : 'bg-warning'
+                            "
                             >{{ item.status }}</span
                           >
                         </td>
                         <td>
-                          <button
-                            :disabled="item.status == 'inactive'"
+                          <router-link
+                            :to="`edit/academicyear/` + item.id"
                             class="btn btn-sm btn-primary mx-1"
-                            @click="toggleEditAY(item)"
+                            >Modifier</router-link
                           >
-                            <i class="bi bi-pen"></i> Modifier
-                          </button>
                           <ModalCloseAY :ayData="item" />
                         </td>
                       </tr>

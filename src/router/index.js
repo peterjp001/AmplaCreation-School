@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AcademicYearView from '../views/academicyear/AcademicYearView.vue'
+import EditAcademicYearView from '../views/academicyear/EditAcademicYearView.vue'
 
 import ReRegistration from '../views/student/ReRegistration.vue'
 import StudentView from '../views/student/StudentView.vue'
@@ -135,6 +136,11 @@ const router = createRouter({
       path: '/academicyear',
       name: 'academicyear',
       component: AcademicYearView
+    },
+    {
+      path: '/edit/academicyear/:academic_id',
+      name: 'editAcademicYearView',
+      component: EditAcademicYearView
     },
     
     // ,

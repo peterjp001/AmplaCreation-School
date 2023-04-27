@@ -64,8 +64,8 @@ export default {
       <ModalBody>
         <div class="p-3 d-flex justify-content-center">
           <span class="fs-5 fw-bold"
-            ><i class="bi bi-exclamation-triangle"></i> Voulez-vous mettre inactive
-            l'année académique {{ this.ay }} ?</span
+            ><i class="bi bi-exclamation-triangle"></i> Voulez-vous mettre
+            inactive l'année académique {{ this.ay }} ?</span
           >
         </div>
       </ModalBody>
